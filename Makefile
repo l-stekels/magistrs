@@ -19,8 +19,8 @@ help: ## Outputs this help screen
 
 ## —— Docker 🐳 ————————————————————————————————————————————————————————————————
 start-prod: ## Start the containers for prod with rebuild
-	@$(DOCKER_COMP) -f compose.yaml -f compose.prod.yaml build --no-cache
-	@$(DOCKER_COMP) -f compose.yaml -f compose.prod.yaml up -d --wait
+	$(DOCKER_COMP) -f compose.yaml -f compose.prod.yaml --env-file .env.prod.local build --no-cache
+	$(DOCKER_COMP) -f compose.yaml -f compose.prod.yaml --env-file .env.prod.local up -d --wait
 
 build: ## Builds the Docker images
 	@$(DOCKER_COMP) build --pull --no-cache
