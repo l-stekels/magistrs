@@ -4,5 +4,5 @@ services:
     build:
       context: .
       target: frankenphp_prod
-    environment:
-      APP_SECRET: ${APP_SECRET}
+    env_file:
+      - .env.prod.local
