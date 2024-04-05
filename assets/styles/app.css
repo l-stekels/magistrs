@@ -1,0 +1,13 @@
+body {
+    background-color: ghostwhite;
+}
+
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 3rem auto 0;
+    width: 50%;
+}

@@ -8,22 +8,15 @@
     <title>Maģistra darbs</title>
     <meta name="description" content="A simple HTML5 Template for new projects.">
     <meta name="author" content="Lauris">
-    {% block style %}
-        <style>
-            main {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                margin-top: 50px;
-            }
-        </style>
+    {% block javascripts %}
+        {% block importmap %}{{ importmap('app') }}{% endblock %}
     {% endblock %}
 </head>
 
 <body>
-    <main>
-        {% block content %}
-        {% endblock %}
-    </main>
+<main>
+    {% block content %}
+    {% endblock %}
+</main>
 </body>
 </html>

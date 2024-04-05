@@ -8,6 +8,7 @@ PHP_CONT = $(DOCKER_COMP) exec php
 PHP      = $(PHP_CONT) php
 COMPOSER = $(PHP_CONT) composer
 SYMFONY  = $(PHP) bin/console
+PROD     = $(DOCKER_COMP) -f compose.yaml -f compose.prod.yaml --env-file .env.prod.local
 
 # Misc
 .DEFAULT_GOAL = help
@@ -19,8 +20,9 @@ help: ## Outputs this help screen
 
 ## —— Docker 🐳 ————————————————————————————————————————————————————————————————
 start-prod: ## Start the containers for prod with rebuild
-	$(DOCKER_COMP) -f compose.yaml -f compose.prod.yaml --env-file .env.prod.local build --no-cache
-	$(DOCKER_COMP) -f compose.yaml -f compose.prod.yaml --env-file .env.prod.local up -d --wait
+	$(PROD) build --no-cache
+	$(PROD) up -d --wait
+	$(PROD) exec php bin/console asset-map:compile
 
 build: ## Builds the Docker images
 	@$(DOCKER_COMP) build --pull --no-cache
