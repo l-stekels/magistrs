@@ -41,7 +41,6 @@ const decrementInterval = setInterval(() => {
   number += 0.1;
   number = Number(number.toFixed(2));
   bmWalker.happiness = number;
-  console.log(bmWalker.happiness);
   if (number >= 6) {
     clearInterval(decrementInterval);
   }
