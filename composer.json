@@ -27,7 +27,7 @@
         "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
-        "roave/security-advisories": "dev-latest"
+        "roave/security-advisories": "dev-master"
     },
     "config": {
         "allow-plugins": {
