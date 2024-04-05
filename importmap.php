@@ -16,4 +16,11 @@ return [
         'path' => './assets/app.js',
         'entrypoint' => true,
     ],
+    'test' => [
+        'path' => './assets/test.js',
+        'entrypoint' => true,
+    ],
+    'p5' => [
+        'version' => '1.9.2',
+    ],
 ];

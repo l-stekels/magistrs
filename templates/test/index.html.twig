@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block style %}
-    {{ parent() }}
+{% block importmap %}
+    {{ importmap(['app', 'test']) }}
 {% endblock %}
 
 {% block content %}
-    <div>another</div>
+    <div id="canvas-container"></div>
     <p>
         Šeit uztaisīt melnu ekrānu ar to, kā izskatīsies tests, varbūt te vajadzētu gifu?
         Kkko mazu, lai man nav jāmaksā miljoni par šo lapu.

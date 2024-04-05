@@ -22,6 +22,8 @@ help: ## Outputs this help screen
 start-prod: ## Start the containers for prod with rebuild
 	$(PROD) build --no-cache
 	$(PROD) up -d --wait
+	$(PROD) exec php bin/console cache:clear
+	$(PROD) exec php bin/console importmap:install
 	$(PROD) exec php bin/console asset-map:compile
 
 build: ## Builds the Docker images
