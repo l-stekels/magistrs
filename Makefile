@@ -20,7 +20,7 @@ help: ## Outputs this help screen
 
 ## —— Docker 🐳 ————————————————————————————————————————————————————————————————
 start-prod: ## Start the containers for prod with rebuild
-	$(PROD) build --no-cache
+	$(PROD) build
 	$(PROD) up -d --wait
 	$(PROD) exec php bin/console cache:clear
 	$(PROD) exec php bin/console importmap:install
