@@ -1,0 +1,33 @@
+#wheel {
+    min-width: 30rem;
+}
+
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.1);
+    display: none;
+}
+
+#overlay::after {
+    content: "";
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    width: 3rem;
+    height: 3rem;
+    margin: -25px 0 0 -25px;
+    border: 4px solid transparent;
+    border-top-color: #0000ff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

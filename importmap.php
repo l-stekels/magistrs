@@ -20,7 +20,34 @@ return [
         'path' => './assets/test.js',
         'entrypoint' => true,
     ],
+    'wheel' => [
+        'path' => './assets/wheel.js',
+        'entrypoint' => true,
+    ],
     'p5' => [
         'version' => '1.9.2',
+    ],
+    '@psychological-components/gew' => [
+        'version' => '0.1.15',
+    ],
+    'rxjs/Observable' => [
+        'version' => '5.5.12',
+    ],
+    'rxjs/Subject' => [
+        'version' => '5.5.12',
+    ],
+    'rxjs/add/observable/fromEvent' => [
+        'version' => '5.5.12',
+    ],
+    '@psychological-components/gew/lib/theme-core.css' => [
+        'version' => '0.1.15',
+        'type' => 'css',
+    ],
+    '@psychological-components/gew/lib/theme-rainbow.css' => [
+        'version' => '0.1.15',
+        'type' => 'css',
+    ],
+    '@psychological-components/gew/umd/gew.js' => [
+        'version' => '0.1.15',
     ],
 ];

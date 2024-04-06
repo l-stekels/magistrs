@@ -17,10 +17,14 @@ class TestController extends AbstractController
     }
 
     #[Route('/test/{id}/finish', name: 'test_finish')]
-    public function name(string $name): Response
+    public function name(): Response
     {
-        return $this->render('test/finish.html.twig', [
-            'name' => $name,
-        ]);
+        return $this->render('test/finish.html.twig');
+    }
+
+    #[Route('/wheel', name: 'wheel')]
+    public function wheel(): Response
+    {
+        return $this->render('wheel.html.twig');
     }
 }
