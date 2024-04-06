@@ -11,7 +11,7 @@ const gew = GEW.default({
   maxElements: 1,
   showLines: true,
   showBorder: true,
-  headerTop: 'nekas',
+  headerTop: 'nav emociju',
   headerBottom: 'cits',
   labels: [
     "interese",
@@ -44,6 +44,7 @@ gew.otherEmotion.onSave.subscribe(data => {
 });
 
 let previouslySelected = null;
+const svg = gew.mainElement;
 gew.elementClick().subscribe(data => {
   if (null !== previouslySelected) {
     previouslySelected.classList.remove('active');
