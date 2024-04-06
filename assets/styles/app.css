@@ -1,7 +1,20 @@
-body {
-    background-color: ghostwhite;
+:root {
+    --primary-color: #003087;
+    --secondary-color: #b1b2b2;
+    --white: #fff;
+    --black: #212121;
+    --primary-70: rgba(0, 48, 135, 0.7);
+    --secondary-70: rgba(177, 178, 178, 0.7);
+    --background: rgba(177, 178, 178, 0.10);
+    --overlay: rgba(177, 178, 178, 0.5);
 }
 
+body {
+    background-color: var(--background);
+    font-family: Times New Roman, Arial, serif;
+    font-weight: normal;
+    color: var(--black);
+}
 
 main {
     display: flex;
@@ -9,5 +22,72 @@ main {
     justify-content: center;
     align-items: center;
     margin: 3rem auto 0;
-    width: 50%;
+    width: 70%;
 }
+
+/* Generic Button */
+.button, button {
+    color: var(--white);
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1rem;
+    border-radius: 25px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+/* Primary Button */
+.button.button-primary, button {
+    background-color: var(--primary-70);
+}
+
+.button.button-primary:hover, button:hover {
+    background-color: var(--primary-color);
+}
+
+/* Secondary Button */
+.button.button-secondary {
+    background-color: var(--secondary-70);
+}
+
+.button.button-secondary:hover {
+    background-color: var(--secondary-color);
+}
+
+/* Input Text */
+input[type="text"] {
+    width: 90%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid var(--secondary-color);
+    border-radius: 25px;
+    transition: border-color 0.4s ease;
+}
+
+input[type="text"]:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+/* Dropdown */
+select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid var(--secondary-color);
+    border-radius: 25px;
+    appearance: none;
+    background-color: #ffffff;
+    transition: border-color 0.4s ease;
+}
+
+select:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+

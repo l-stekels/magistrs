@@ -1,8 +1,6 @@
-import './styles/wheel.css';
-
 import GEW from "@psychological-components/gew/umd/gew.js";
-import "@psychological-components/gew/lib/theme-core.css";
 import "@psychological-components/gew/lib/theme-rainbow.css";
+import './styles/wheel.css';
 
 const overlay = document.getElementById("overlay");
 
@@ -10,7 +8,7 @@ const gew = GEW.default({
   isMobile: false,
   element: "#wheel",
   R: 80,
-  maxElements: 2,
+  maxElements: 1,
   showLines: true,
   showBorder: true,
   headerTop: 'nekas',
@@ -41,14 +39,24 @@ const gew = GEW.default({
 });
 
 gew.otherEmotion.onSave.subscribe(data => {
-  overlay.style.display = 'block';
+  // overlay.style.display = 'block';
   console.log(data);
 });
 
-const action = gew.elementClick();
+let previouslySelected = null;
+gew.elementClick().subscribe(data => {
+  if (null !== previouslySelected) {
+    previouslySelected.classList.remove('active');
+  }
+  const selectedIndex = data.findIndex(e => e !== null);
+  if (selectedIndex === -1) {
+    previouslySelected = null;
+    return;
+  }
+  const selected = data[selectedIndex];
 
-action.subscribe(data => {
-  overlay.style.display = 'block';
-  gew.isActive = false;
-  console.log(data);
+  const selectedRow = svg.querySelector(`.line_${selectedIndex + 1}`);
+  const selectedElement = selectedRow.querySelector(`.row_${selected}`);
+  selectedElement.classList.add('active');
+  previouslySelected = selectedElement;
 });

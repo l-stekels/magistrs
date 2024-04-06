@@ -1,5 +1,8 @@
 #wheel {
-    min-width: 30rem;
+    width: 90%;
+    height: 90%;
+    position: relative;
+    padding-bottom: 1rem;
 }
 
 #overlay {
@@ -8,20 +11,20 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: var(--overlay);
     display: none;
 }
 
 #overlay::after {
     content: "";
     position: absolute;
-    top: 30%;
+    top: 48%;
     left: 50%;
     width: 3rem;
     height: 3rem;
     margin: -25px 0 0 -25px;
     border: 4px solid transparent;
-    border-top-color: #0000ff;
+    border-top-color: var(--primary-color);
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
@@ -30,4 +33,20 @@
     to {
         transform: rotate(360deg);
     }
+}
+
+.gew-instance svg .text-label.odd p {
+    color: var(--black);
+}
+
+.gew-instance svg .text-label.even p {
+    color: var(--black);
+}
+.gew-instance svg > g > a {
+    fill: var(--black);
+    cursor: pointer;
+    transition: fill 0.3s ease;
+}
+.gew-instance svg > g > a:hover {
+    fill: var(--primary-color);
 }
