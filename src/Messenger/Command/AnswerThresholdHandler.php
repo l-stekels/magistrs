@@ -20,6 +20,7 @@ readonly class AnswerThresholdHandler
         $answer = $this->answerRepo->get($command->answerId);
         $answer->setThreshold($command->getThreshold());
         $answer->setGuessedEmotion($command->getGuessedEmotion());
+        $answer->setWalkerEmotion($command->walkerEmotion);
         $this->answerRepo->flush();
     }
 }

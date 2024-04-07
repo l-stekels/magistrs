@@ -46,7 +46,8 @@ const startEmotion = (step) => {
     if (number >= 6 || number <= -6) {
       clearInterval(changeInterval);
     }
-  }, 6000/*ms*/);
+    console.log(bmWalker.happiness);
+  }, 100/*ms*/);
 };
 
 const startMotionButton = document.getElementById('start-motion');

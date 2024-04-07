@@ -1,89 +1,50 @@
-import Chart from 'chart.js/auto'
+import Chart from 'chart.js/auto';
 
-function calcMean(data, useY) {
-  const sum = data.reduce((a, b) => a + (useY ? b.y : b), 0);
-  return sum / data.length;
-}
+// Your data
+let guesses = [
+  { time: 2342, correct: true },
+  { time: 5034, correct: false },
+  { time: 3405, correct: false },
+  // ... more data ...
+];
 
-const data = new Array(500).fill(0).map((v, i) => ({x: i, y: 100 + Math.random() * 100}));
-console.log(data);
+// Current user's guess
+let currentGuess = { time: 3533, correct: true };
 
+// Filter the guesses into correct and incorrect arrays
+let correctGuesses = guesses.filter(guess => guess.correct);
+let incorrectGuesses = guesses.filter(guess => !guess.correct);
 
-const mean = calcMean(data, true);
-const tmp = data.map(p => Math.pow(p.y - mean, 2));
-const variance = calcMean(data.map(p => Math.pow(p.y - mean, 2)));
-const stddev = Math.sqrt(variance);
-const pdf = (x) => {
-  const m = stddev * Math.sqrt(2 * Math.PI);
-  const e = Math.exp(-Math.pow(x - mean, 2) / (2 * variance));
-  return e / m;
-};
-const bell = [];
-const startX = mean - 3.5 * stddev;
-const endX = mean + 3.5 * stddev;
-const step = stddev / 7;
-let x;
-for(x = startX; x <= mean; x += step) {
-  bell.push({x, y: pdf(x)});
-}
-for(x = mean + step; x <= endX; x += step) {
-  bell.push({x, y: pdf(x)});
-}
+// Calculate the average time for correct and incorrect guesses
+let averageCorrectTime = correctGuesses.reduce((sum, guess) => sum + guess.time, 0) / correctGuesses.length;
+let averageIncorrectTime = incorrectGuesses.reduce((sum, guess) => sum + guess.time, 0) / incorrectGuesses.length;
 
-const chart = new Chart('chart', {
-  type: 'scatter',
+// Create the chart
+let ctx = document.getElementById('chart').getContext('2d');
+let chart = new Chart(ctx, {
+  type: 'radar',
   data: {
-    datasets: [{
-      label: 'Data',
-      data,
-      backgroundColor: 'rgba(0,200,0,0.3)',
-      hoverRadius: 10,
-      hoverBackgroundColor: 'yellow',
-    },{
-      type: 'line',
-      label: 'Bell Curve',
-      data: bell,
-      xAxisID: 'x2',
-      yAxisID: 'y2',
-      fill: true,
-      tension: 0.4,
-      radius: 0,
-      backgroundColor: 'rgba(0,0,200,0.3)',
-    }]
+    labels: ['Pareizie minējumi', 'Kļūdainie minējumi', 'Jūsu minējums'],
+    datasets: [
+      {
+        label: 'Vidējais minējums laiks (ms)',
+        data: [averageCorrectTime, averageIncorrectTime, currentGuess.time],
+        backgroundColor: 'rgba(5,224,189,0.1)', // Light blue
+        borderColor: 'rgb(5,224,189)', // Light blue
+        pointBackgroundColor: 'blue'
+      }
+    ]
   },
   options: {
-    interaction: {
-      mode: 'nearest',
-      intersect: false
-    },
+    responsive: true,
     scales: {
-      x: {min: 0, max: 500},
-      y: {min: 0, max: 300, title: {display: true, text: 'Data'}},
-      x2: {
-        position: 'top',
-        type: 'linear',
-        grid: {
-          display: false
-        },
-        afterBuildTicks(scale) {
-          scale.ticks = bell.map(p => ({value: p.x}))
-            .filter((tick, index) => index % 2 === 0);
-        },
-        ticks: {
-          maxRotation: 0
-        },
-        min: startX,
-        max: endX
-      },
-      y2: {
-        type: 'linear',
-        position: 'right',
-        grid: {
-          display: false
-        },
-        title: {display: true, text: 'Bell Curve'}
+      r: {
+        beginAtZero: true,
+        title: {
+          display: true,
+          text: 'Time (ms)'
+        }
       }
     }
   }
-})
-
+});
