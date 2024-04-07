@@ -7,11 +7,14 @@ namespace App\Messenger\Command;
 use App\Enum\Gender;
 use App\Messenger\Middleware\LockableMessageInterface;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class StartAnswer implements LockableMessageInterface
 {
     private Gender $gender;
 
+    #[Assert\Positive]
+    #[Assert\Range(min: 1, max: 100)]
     private int $age;
 
     public function __construct(

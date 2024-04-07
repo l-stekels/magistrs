@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block javascripts %}
+    {% block importmap %}
+        {{ importmap(['app', 'bio_motion']) }}
+    {% endblock %}
+    <script>
+        const emotion = {{ emotion.value|json_encode|raw }};
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div id="canvas-container"></div>
+    <form class="buttons" method="post">
+        <input type="hidden" name="token" value="{{ csrf_token('save-threshold') }}">
+        <input id="threshold-input" type="hidden" name="threshold">
+        <button type="submit" id="sad-button">Bēdīgs</button>
+        <button type="submit" id="happy-button">Priecīgs</button>
+    </form>
+    <div id="overlay">
+        <div class="overlay-container">
+            <p>
+                Kad nospiedīsi pogu "sākt" figūra sāks kustību, man šķiet, ka man vajag palīdzību uzrakstīt tekstus, kas
+                nav ar daudz kļūdām un ir skaidri saprotami.
+                Tavs uzdevums ir izvēlēties kādai emocijai šīs figūras kustība atbilst visvairāk.
+                Un nospiest attiecīgo pogu!
+                Emocija var būt arī neskaidra izvēlies, kura, tavuprat, ir tuvākā.
+            </p>
+            <button class="button button-primary-inverted" id="start-motion">Sākt</button>
+        </div>
+    </div>
+    {% if app.debug %}
+        <p id="debug-time"></p>
+    {% endif %}
+{% endblock %}
+

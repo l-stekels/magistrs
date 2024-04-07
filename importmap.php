@@ -16,8 +16,8 @@ return [
         'path' => './assets/app.js',
         'entrypoint' => true,
     ],
-    'test' => [
-        'path' => './assets/test.js',
+    'bio_motion' => [
+        'path' => './assets/bio_motion.js',
         'entrypoint' => true,
     ],
     'wheel' => [
@@ -49,5 +49,8 @@ return [
     ],
     '@psychological-components/gew/umd/gew.js' => [
         'version' => '0.1.15',
+    ],
+    'bmwalker' => [
+        'path' => './assets/js/bmwalker.js',
     ],
 ];

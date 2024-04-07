@@ -38,13 +38,41 @@ const gew = GEW.default({
   radiusX: 5000,
 });
 
+const promtSaveButton = document.getElementsByClassName('save_btn')[0];
+const promtCancelButton = document.getElementsByClassName('cancel_btn')[0];
+promtSaveButton.innerHTML = 'Saglabāt';
+promtCancelButton.innerHTML = 'Atcelt';
+const form = document.getElementById('wheel-form');
+let emotionInput = document.querySelector('input[name="emotion"]');
+let intensityInput = document.querySelector('input[name="intensity"]');
+let customEmotionInput = document.querySelector('input[name="custom-emotion"]');
+
+// Cita emocija
 gew.otherEmotion.onSave.subscribe(data => {
   // overlay.style.display = 'block';
-  console.log(data);
+  customEmotionInput.value = data;
+  emotionInput.value = '';
+  intensityInput.value = '';
+  form.submit();
 });
 
 let previouslySelected = null;
 const svg = gew.mainElement;
+
+// Nav emociju izvēle
+let aElements = svg.getElementsByTagName('a');
+let links = [];
+for(let i = 0; i < aElements.length; i++) {
+  if(!aElements[i].classList.value.startsWith('row_')) {
+    links.push(aElements[i]);
+  }
+}
+links[0].addEventListener('click', (e) => {
+  intensityInput.value = '';
+  customEmotionInput.value = '';
+  emotionInput.value = '';
+});
+
 gew.elementClick().subscribe(data => {
   if (null !== previouslySelected) {
     previouslySelected.classList.remove('active');
@@ -60,4 +88,10 @@ gew.elementClick().subscribe(data => {
   const selectedElement = selectedRow.querySelector(`.row_${selected}`);
   selectedElement.classList.add('active');
   previouslySelected = selectedElement;
+
+  const emotion = data.findIndex(e => e !== null);
+  const intensity = data[emotion];
+  emotionInput.value = emotion;
+  intensityInput.value = intensity + 1;
+  customEmotionInput.value = '';
 });

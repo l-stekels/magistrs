@@ -16,6 +16,10 @@ const BMW_TYPE_CAT = 1;
 const BMW_TYPE_PIGEON = 2;
 const BMW_TYPE_BOX = 3; // (for debug)
 
+function abs(value) {
+  return value < 0 ? -value : value;
+}
+
 export default class BMWalker {
   // Constructor
   constructor(type = BMW_TYPE_HUMAN) {

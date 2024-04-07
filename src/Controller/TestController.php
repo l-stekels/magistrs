@@ -5,7 +5,11 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Answer;
+use App\Enum\Emotion;
+use App\Enum\WalkerEmotion;
 use App\Form\AnswerType;
+use App\Messenger\Command\AnswerEmotion;
+use App\Messenger\Command\AnswerThreshold;
 use App\Messenger\Command\StartAnswer;
 use App\Repository\TestRepository;
 use Detection\Exception\MobileDetectException;
@@ -26,13 +30,7 @@ class TestController extends AbstractController
     ) {
     }
 
-    #[Route('/test', name: 'test_start')]
-    public function index(): Response
-    {
-        return $this->render('test/index.html.twig');
-    }
-
-    #[Route('/demografija', name: 'demografija')]
+    #[Route('/demographic', name: 'demographic', methods: ['GET', 'POST'])]
     public function demographic(Request $request): Response
     {
         $this->mobileDetect->setUserAgent($request->headers->get('User-Agent'));
@@ -60,21 +58,64 @@ class TestController extends AbstractController
         ]);
     }
 
-    #[Route('/bio-motion', name: 'bio_motion_start')]
-    public function bioMotionStart(Answer $answer): Response
+    #[Route('/bio-motion/{id}', name: 'bio_motion_start', methods: ['GET', 'POST'])]
+    public function bioMotionStart(Request $request, Answer $answer): Response
     {
-        return $this->render('test/bio_motion_start.html.twig');
+        // Determine walker emotion
+        $walkerEmotion = WalkerEmotion::random();
+        $command = new AnswerThreshold(
+            $answer->getId(),
+            $walkerEmotion,
+        );
+        if ($request->isMethod('GET')) {
+            return $this->render('test/bio_motion.html.twig', [
+                'emotion' => $walkerEmotion,
+            ]);
+        }
+        $csrfToken = $request->getPayload()->get('token');
+        if (!$this->isCsrfTokenValid('save-threshold', $csrfToken)) {
+            return new Response(':(');
+        }
+
+        $command->setThreshold((int) $request->getPayload()->get('threshold'));
+        try {
+            $this->commandBus->dispatch($command);
+        } catch (\Throwable) {
+            $this->addFlash('error', 'Diemžēl neizdevās saglabāt atbildi, lūdzu mēģiniet vēlreiz');
+            return $this->redirectToRoute('bio_motion_start', ['id' => $answer->getId()]);
+        }
+
+        return $this->redirectToRoute('emotion_wheel', ['id' => $answer->getId()]);
     }
 
-    #[Route('/test/{id}/finish', name: 'test_finish')]
-    public function name(): Response
+    #[Route('/gew/{id}', name: 'emotion_wheel', methods: ['GET', 'POST'])]
+    public function wheel(Request $request, Answer $answer): Response
     {
-        return $this->render('test/finish.html.twig');
-    }
+        $command = new AnswerEmotion(
+            $answer->getId(),
+        );
+        if ($request->isMethod('GET')) {
+            return $this->render('test/gew.html.twig');
+        }
+        $csrfToken = $request->getPayload()->get('token');
+        if (!$this->isCsrfTokenValid('save-emotion', $csrfToken)) {
+            return new Response(':(');
+        }
+        // Map values to null
+        $values = array_map(static fn (string $value) => "" === $value ? null : $value, $request->request->all());
+        // Map number of emotion to the correct enum value
+        $emotion = Emotion::pick($values['emotion']);
+        $intensity = null !== $values['intensity'] ? (int) $values['intensity'] : null;
+        $command->setCustomEmotion($values['custom-emotion']);
+        $command->setIntensity($intensity);
+        $command->setEmotion($emotion);
+        try {
+            $this->commandBus->dispatch($command);
+        } catch (\Throwable) {
+            $this->addFlash('error', 'Diemžēl neizdevās saglabāt atbildi, lūdzu mēģiniet vēlreiz');
+            return $this->redirectToRoute('emotion_wheel', ['id' => $answer->getId()]);
+        }
 
-    #[Route('/wheel', name: 'wheel')]
-    public function wheel(): Response
-    {
-        return $this->render('wheel.html.twig');
+        return $this->redirectToRoute('fin', ['id' => $answer->getId()]);
     }
 }

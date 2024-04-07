@@ -7,6 +7,7 @@ namespace App\Entity;
 use App\Entity\Trait\Timestamped;
 use App\Enum\Emotion;
 use App\Enum\Gender;
+use App\Enum\WalkerEmotion;
 use App\Repository\AnswerRepository;
 use Doctrine\ORM\Mapping\Column;
 use Symfony\Component\Uid\Uuid;
@@ -27,14 +28,20 @@ class Answer
     #[Column(nullable: true)]
     private ?\DateTimeImmutable $completedAt = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $threshold = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true, enumType: Emotion::class)]
     private ?Emotion $wheelEmotion = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $wheelScore = null;
+
+    #[ORM\Column(nullable: true, enumType: WalkerEmotion::class)]
+    private ?WalkerEmotion $walkerEmotion = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?string $customEmotion = null;
 
     public function __construct(
         #[ORM\Id]
@@ -43,7 +50,14 @@ class Answer
         #[ORM\ManyToOne(targetEntity: Test::class, inversedBy: 'answers')]
         #[ORM\JoinColumn(nullable: false)]
         private readonly Test $test,
+        #[ORM\Column]
+        private readonly bool $isMobile,
     ) {
+    }
+
+    public function getId(): Uuid
+    {
+        return $this->id;
     }
 
     public function getGender(): Gender
@@ -104,5 +118,30 @@ class Answer
     public function setWheelScore(int $wheelScore): void
     {
         $this->wheelScore = $wheelScore;
+    }
+
+    public function getIsMobile(): bool
+    {
+        return $this->isMobile;
+    }
+
+    public function getWalkerEmotion(): ?WalkerEmotion
+    {
+        return $this->walkerEmotion;
+    }
+
+    public function setWalkerEmotion(?WalkerEmotion $walkerEmotion): void
+    {
+        $this->walkerEmotion = $walkerEmotion;
+    }
+
+    public function getCustomEmotion(): ?string
+    {
+        return $this->customEmotion;
+    }
+
+    public function setCustomEmotion(?string $customEmotion): void
+    {
+        $this->customEmotion = $customEmotion;
     }
 }

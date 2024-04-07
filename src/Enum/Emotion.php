@@ -26,4 +26,9 @@ enum Emotion: string
     case NICINAJUMS = "nicinājums";
     case NAIDS = "naids";
     case DUSMAS = "dusmas";
+
+    public static function pick(?string $value): ?Emotion
+    {
+        return self::cases()[$value] ?? null;
+    }
 }

@@ -26,7 +26,7 @@ class Test
     private Collection $answers;
 
     #[ORM\Column(type: 'boolean')]
-    private ?true $active = null;
+    private ?bool $active = null;
 
     public function __construct(
         #[ORM\Id]
