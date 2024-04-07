@@ -2,24 +2,13 @@
 
 {% block content %}
     <header>
-        <h1>Bioloģiskās kustības emociju atpazīšana</h1>
+        <h1>Bioloģiskās kustības emociju atpazīšanas</h1>
         <h2>Sliekšņa noteikšanas tests</h2>
-        <p>Šeit būs pieejams rīks cilvēka bioloģiskās kustības testēšanai.</p>
-        <p>Jāievieto apraksts par to, kas te notiks utt.</p>
-        <a href="{{ path('test_start') }}">Sākt</a>
-        <p>PF Handbook Bold</p>
-        <p>Meklēšana</p>
-        <button class="button button-primary">Primary Button</button>
-        <button class=" button button-secondary">Secondary Button</button>
-        <label>
-            <input type="text" placeholder="Enter Text Here">
-        </label>
-        <label>
-            <select>
-                <option value="">Select an Option</option>
-                <option value="option1">Option 1</option>
-                <option value="option2">Option 2</option>
-            </select>
-        </label>
+        <p>
+            Mini apraksts par to, kas es esmu un ko vēlos panākt ar savu testu.
+            Pēc tam aprakstīta testa norises gaita un lielos vilcienos apstāstīts, kas būs redzams.
+            Informācija par to, ka tests ir anonīms un nekāda personīga informācija netiek ievākta.
+        </p>
+        <a href="{{ path('demografija') }}" class="button button-primary">Sākt</a>
     </header>
 {% endblock %}

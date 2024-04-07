@@ -16,6 +16,11 @@ body {
     color: var(--black);
 }
 
+p {
+    font-size: 1.3rem;
+    line-height: 1.5;
+}
+
 main {
     display: flex;
     flex-direction: column;
@@ -25,18 +30,55 @@ main {
     width: 70%;
 }
 
+@media screen and (min-width: 1440px) {
+    main {
+        width: 33.33%;
+    }
+}
+
+@media screen and (min-width: 1080px) and (max-width: 1439px) {
+    main {
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 1079px) {
+    main {
+        width: 70%;
+    }
+}
+
+@media screen and (max-width: 720px) {
+    main {
+        width: 90%;
+    }
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+}
+header p {
+    text-align: justify;
+}
+
 /* Generic Button */
-.button, button {
+.button, button, a.button {
     color: var(--white);
     border: none;
     padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
     display: inline-block;
-    font-size: 1rem;
     border-radius: 25px;
     transition: background-color 0.3s ease;
     cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    font-family: Times New Roman, Arial, serif;
+    font-weight: normal;
+    font-size: 1rem;
 }
 
 /* Primary Button */

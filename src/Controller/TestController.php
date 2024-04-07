@@ -16,6 +16,20 @@ class TestController extends AbstractController
         return $this->render('test/index.html.twig');
     }
 
+    #[Route('/demografija', name: 'demografija')]
+    public function demographic(): Response
+    {
+        // TODO: Ielādē eksistējošo testu no datubāzes
+        // TODO: Vismaz vienam testam jāaksistē, jāpievieno default migrācija
+
+        // Šajā brīdī sākas testa izpilde, varbūt ir jēga taisīt te jau formu?
+
+
+
+
+        return $this->render('test/demographic.html.twig');
+    }
+
     #[Route('/test/{id}/finish', name: 'test_finish')]
     public function name(): Response
     {
