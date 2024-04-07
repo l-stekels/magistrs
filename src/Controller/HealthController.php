@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\TestRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Lock\LockFactory;
@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class HealthController extends AbstractController
 {
     public function __construct(
-        private readonly EntityManagerInterface $em,
+        private readonly TestRepository $testRepo,
         private readonly LockFactory $lock,
     ) {
     }
@@ -22,17 +22,18 @@ class HealthController extends AbstractController
     #[Route('/health', name: 'health')]
     public function index(): Response
     {
+        $status = 'OK';
         $lock = null;
         try {
             $lock = $this->lock->createLock('health');
             $lock->acquire(true);
-            $this->em->getConnection()->prepare('SELECT 1')->executeStatement();
+            $this->testRepo->getActiveTest();
         } catch (\Throwable) {
-            return new Response('ERROR', Response::HTTP_INTERNAL_SERVER_ERROR);
+            $status = 'ERROR';
         } finally {
             $lock?->release();
         }
 
-        return new Response('OK');
+        return $this->render('health/index.html.twig', compact('status'));
     }
 }

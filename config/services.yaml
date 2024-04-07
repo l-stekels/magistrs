@@ -20,5 +20,11 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    Detection\MobileDetect:
+        arguments:
+            $cache: null
+            $config:
+                autoInitOfHttpHeaders: false
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
