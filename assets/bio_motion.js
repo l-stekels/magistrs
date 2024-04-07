@@ -75,8 +75,20 @@ startMotionButton.addEventListener('click', (e) => {
 
 const sadButton = document.getElementById('sad-button');
 const happyButton = document.getElementById('happy-button');
+const guessedInput = document.getElementById('guessed-emotion');
 
 const buttonClickHandler = (e) => {
+  switch (e.target.id) {
+    case 'sad-button':
+      guessedInput.value = 'sad';
+      break;
+    case 'happy-button':
+      guessedInput.value = 'happy';
+      break;
+    default:
+      guessedInput.value = '';
+      break;
+  }
   bmWalker.setSpeed(0);
   const elapsedTime = Date.now() - time;
   const thresholdInput = document.getElementById('threshold-input');
@@ -85,7 +97,6 @@ const buttonClickHandler = (e) => {
   if (null !== debugTimeContainer) {
     debugTimeContainer.textContent = `Time: ${elapsedTime}ms`;
   }
-  e.default();
 }
 sadButton.addEventListener('click', buttonClickHandler);
 happyButton.addEventListener('click', buttonClickHandler);

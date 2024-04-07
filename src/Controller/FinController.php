@@ -25,7 +25,7 @@ class FinController extends AbstractController
 
         return $this->render('test/fin.html.twig', [
             'walkerEmotion' => $walkerEmotion,
-            'guessedEmotion' => $answer->getGuessedEmotion(),
+            'guessedEmotion' => $answer->getGuessedEmotion()?->value,
             'score' => $score,
         ]);
     }

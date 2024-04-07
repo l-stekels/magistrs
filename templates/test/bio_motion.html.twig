@@ -14,6 +14,7 @@
     <form class="buttons" method="post">
         <input type="hidden" name="token" value="{{ csrf_token('save-threshold') }}">
         <input id="threshold-input" type="hidden" name="threshold">
+        <input id="guessed-emotion" type="hidden" name="guessed-emotion">
         <button type="submit" id="sad-button">Bēdīgs</button>
         <button type="submit" id="happy-button">Priecīgs</button>
     </form>

@@ -82,6 +82,7 @@ class TestController extends AbstractController
         }
 
         $command->setThreshold((int) $request->getPayload()->get('threshold'));
+        $command->setGuessedEmotion(WalkerEmotion::tryFrom($request->getPayload()->get('guessed-emotion')));
         try {
             $this->commandBus->dispatch($command);
         } catch (\Throwable) {
