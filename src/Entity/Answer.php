@@ -108,7 +108,7 @@ class Answer
         return $this->wheelEmotion;
     }
 
-    public function setWheelEmotion(Emotion $wheelEmotion): void
+    public function setWheelEmotion(?Emotion $wheelEmotion): void
     {
         $this->wheelEmotion = $wheelEmotion;
     }
@@ -118,7 +118,7 @@ class Answer
         return $this->wheelScore;
     }
 
-    public function setWheelScore(int $wheelScore): void
+    public function setWheelScore(?int $wheelScore): void
     {
         $this->wheelScore = $wheelScore;
     }

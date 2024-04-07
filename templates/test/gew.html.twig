@@ -5,10 +5,17 @@
 {% endblock %}
 
 {% block content %}
-    <p>(ALTERNATIVE 1 – PARTICIPANT CHOOSES ONE EMOTION ONLY)
-
-        Please rate the intensity of the emotion in the wheel which best describes what you felt. If you did not feel any emotion at all, please check the upper half circle in the center of the wheel (labeled "None"). If you experienced an emotion that is very different from any of the emotions in the wheel, please check the lower half circle (labeled "Other").
-    </p>
+    <div class="guide">
+        <p>
+            Lūdzu, atzīmējiet emociju un tās intensitāti, kas vislabāk raksturo to, kā jūs šobrīd jūtaties.
+        </p>
+        <p>
+            Ja jūs neizjūtat nekādas emocijas, lūdzu, atzīmējiet "Nav emociju".
+        </p>
+        <p>
+            Ja esat piedzīvojis emocijas, kas ļoti atšķiras no jebkuras piedāvātās, lūdzu, atzīmējiet "Cits".
+        </p>
+    </div>
     <div id="wheel"></div>
     <form id="wheel-form" method="post">
         <input type="hidden" name="token" value="{{ csrf_token('save-emotion') }}">

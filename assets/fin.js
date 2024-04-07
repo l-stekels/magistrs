@@ -1,16 +1,5 @@
 import Chart from 'chart.js/auto';
 
-// Your data
-let guesses = [
-  { time: 2342, correct: true },
-  { time: 5034, correct: false },
-  { time: 3405, correct: false },
-  // ... more data ...
-];
-
-// Current user's guess
-let currentGuess = { time: 3533, correct: true };
-
 // Filter the guesses into correct and incorrect arrays
 let correctGuesses = guesses.filter(guess => guess.correct);
 let incorrectGuesses = guesses.filter(guess => !guess.correct);
@@ -22,27 +11,41 @@ let averageIncorrectTime = incorrectGuesses.reduce((sum, guess) => sum + guess.t
 // Create the chart
 let ctx = document.getElementById('chart').getContext('2d');
 let chart = new Chart(ctx, {
-  type: 'radar',
+  type: 'bar',
   data: {
     labels: ['Pareizie minējumi', 'Kļūdainie minējumi', 'Jūsu minējums'],
     datasets: [
       {
-        label: 'Vidējais minējums laiks (ms)',
-        data: [averageCorrectTime, averageIncorrectTime, currentGuess.time],
-        backgroundColor: 'rgba(5,224,189,0.1)', // Light blue
-        borderColor: 'rgb(5,224,189)', // Light blue
-        pointBackgroundColor: 'blue'
-      }
+        label: ['Pareizie minējumi'],
+        data: [averageCorrectTime,  null, null],
+        backgroundColor: 'rgba(5,224,189,0.1)',
+        borderColor: 'rgb(5,224,189)',
+        borderWidth: 1
+      },
+      {
+        label: 'Kļūdainie minējumi',
+        data: [null, averageIncorrectTime, null],
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgb(255, 99, 132)',
+        borderWidth: 1
+      },
+      {
+        label: 'Jūsu minējums',
+        data: [null, null, currentGuess.time],
+        backgroundColor: 'rgba(255, 159, 64, 0.2)',
+        borderColor: 'rgb(255, 159, 64)',
+        borderWidth: 1
+      },
     ]
   },
   options: {
     responsive: true,
     scales: {
-      r: {
+      y: {
         beginAtZero: true,
         title: {
           display: true,
-          text: 'Time (ms)'
+          text: 'Laiks (sekundes)'
         }
       }
     }

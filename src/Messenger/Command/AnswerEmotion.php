@@ -23,7 +23,7 @@ class AnswerEmotion
     {
     }
 
-    public function getEmotion(): Emotion
+    public function getEmotion(): ?Emotion
     {
         return $this->emotion;
     }

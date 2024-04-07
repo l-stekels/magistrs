@@ -49,3 +49,7 @@
 .gew-instance svg > g > a:hover {
     fill: var(--primary-color);
 }
+
+.guide p {
+    margin: 0;
+}

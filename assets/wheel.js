@@ -71,6 +71,7 @@ links[0].addEventListener('click', (e) => {
   intensityInput.value = '';
   customEmotionInput.value = '';
   emotionInput.value = '';
+  form.submit();
 });
 
 gew.elementClick().subscribe(data => {

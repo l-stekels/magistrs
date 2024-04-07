@@ -61,7 +61,6 @@ class TestController extends AbstractController
     #[Route('/bio-motion/{id}', name: 'bio_motion_start', methods: ['GET', 'POST'])]
     public function bioMotionStart(Request $request, Answer $answer): Response
     {
-        // TODO: Add state machine
         if ($answer->getCompletedAt() !== null) {
             return $this->redirectToRoute('fin', ['id' => $answer->getId()]);
         }
@@ -96,7 +95,6 @@ class TestController extends AbstractController
     #[Route('/gew/{id}', name: 'emotion_wheel', methods: ['GET', 'POST'])]
     public function wheel(Request $request, Answer $answer): Response
     {
-        // TODO: Add state machine
         if ($answer->getCompletedAt() !== null) {
             return $this->redirectToRoute('fin', ['id' => $answer->getId()]);
         }

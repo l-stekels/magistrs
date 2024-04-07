@@ -46,7 +46,6 @@ const startEmotion = (step) => {
     if (number >= 6 || number <= -6) {
       clearInterval(changeInterval);
     }
-    console.log(bmWalker.happiness);
   }, 100/*ms*/);
 };
 

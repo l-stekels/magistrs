@@ -16,4 +16,15 @@ class AnswerRepository extends AbstractRepository
     {
         parent::__construct($registry, Answer::class);
     }
+
+    /**
+     * @return array<int, array{time: int, correct: boolean}>
+     */
+    public function getStats(): array
+    {
+        return $this->createQueryBuilder('a')
+            ->select('a.threshold / 1000 as time', 'CASE WHEN a.guessedEmotion = a.walkerEmotion THEN 1 ELSE 0 END as correct')
+            ->getQuery()
+            ->getArrayResult();
+    }
 }
