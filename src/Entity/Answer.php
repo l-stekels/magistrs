@@ -43,6 +43,9 @@ class Answer
     #[ORM\Column(nullable: true)]
     private ?string $customEmotion = null;
 
+    #[ORM\Column(nullable: true, enumType: WalkerEmotion::class)]
+    private ?WalkerEmotion $guessedEmotion = null;
+
     public function __construct(
         #[ORM\Id]
         #[ORM\Column(type: 'uuid', nullable: false)]
@@ -143,5 +146,15 @@ class Answer
     public function setCustomEmotion(?string $customEmotion): void
     {
         $this->customEmotion = $customEmotion;
+    }
+
+    public function getGuessedEmotion(): ?WalkerEmotion
+    {
+        return $this->guessedEmotion;
+    }
+
+    public function setGuessedEmotion(WalkerEmotion $emotion):void
+    {
+        $this->guessedEmotion = $emotion;
     }
 }

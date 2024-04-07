@@ -24,6 +24,10 @@ return [
         'path' => './assets/wheel.js',
         'entrypoint' => true,
     ],
+    'fin' => [
+        'path' => './assets/fin.js',
+        'entrypoint' => true,
+    ],
     'p5' => [
         'version' => '1.9.2',
     ],
@@ -52,5 +56,14 @@ return [
     ],
     'bmwalker' => [
         'path' => './assets/js/bmwalker.js',
+    ],
+    'chart.js' => [
+        'version' => '4.4.2',
+    ],
+    '@kurkle/color' => [
+        'version' => '0.3.2',
+    ],
+    'chart.js/auto' => [
+        'version' => '4.4.2',
     ],
 ];

@@ -1,9 +1,15 @@
 {% extends 'base.html.twig' %}
 
 {% block importmap %}
-    {{ importmap(['app']) }}
+    {{ importmap(['app', 'fin']) }}
 {% endblock %}
-
+{#//            'walkerEmotion' => $walkerEmotion,#}
+{#'guessedEmotion' => $answer->getGuessedEmotion(),#}
+{#'score' => $score,#}
+{#]);#}
 {% block content %}
+    <canvas id="chart"></canvas>
     Paldies par kūkām un čau!
+    Tava testa bioloģiskās kustības figūras emocija bija {{ walkerEmotion }}.
+    Tu atpazini {{ guessedEmotion }} {{ score / 1000 }}  sekundēs.
 {% endblock %}

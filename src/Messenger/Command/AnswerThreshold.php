@@ -14,6 +14,8 @@ class AnswerThreshold
     #[Assert\Range(min: 1)]
     private int $threshold;
 
+    private ?WalkerEmotion $guessedEmotion = null;
+
     public function __construct(
         public readonly Uuid $answerId,
         public readonly WalkerEmotion $walkerEmotion,
@@ -28,5 +30,15 @@ class AnswerThreshold
     public function getThreshold(): int
     {
         return $this->threshold;
+    }
+
+    public function getGuessedEmotion(): ?WalkerEmotion
+    {
+        return $this->guessedEmotion;
+    }
+
+    public function setGuessedEmotion(WalkerEmotion $guessedEmotion): void
+    {
+        $this->guessedEmotion = $guessedEmotion;
     }
 }
