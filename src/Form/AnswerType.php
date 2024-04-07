@@ -21,6 +21,7 @@ class AnswerType extends AbstractType
             'required' => true,
             'class' => Gender::class,
             'label' => 'Dzimums',
+            'placeholder' => '',
         ]);
         $builder->add('age', IntegerType::class, [
             'label' => 'Vecums',
