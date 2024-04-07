@@ -43,6 +43,10 @@ logs: ## Show live logs
 sh: ## Connect to the FrankenPHP container
 	@$(PHP_CONT) sh
 
+php: ## Run a PHP command, pass the parameter "c=" to run a given command, example: make php c='bin/console about'
+	@$(eval c ?=)
+	@$(PHP) $(c)
+
 test: ## Start tests with phpunit, pass the parameter "c=" to add options to phpunit, example: make test c="--group e2e --stop-on-failure"
 	@$(eval c ?=)
 	@$(DOCKER_COMP) exec -e APP_ENV=test php bin/phpunit $(c)
