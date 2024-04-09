@@ -6,3 +6,6 @@ services:
       target: frankenphp_prod
     env_file:
       - .env.prod.local
+  database:
+    ports:
+      - "32773:5432"
