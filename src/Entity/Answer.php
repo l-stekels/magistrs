@@ -7,6 +7,7 @@ namespace App\Entity;
 use App\Entity\Trait\Timestamped;
 use App\Enum\Emotion;
 use App\Enum\Gender;
+use App\Enum\Hobby;
 use App\Enum\WalkerEmotion;
 use App\Repository\AnswerRepository;
 use Doctrine\ORM\Mapping\Column;
@@ -45,6 +46,9 @@ class Answer
 
     #[ORM\Column(nullable: true, enumType: WalkerEmotion::class)]
     private ?WalkerEmotion $guessedEmotion = null;
+
+    #[ORM\Column(type: 'json', enumType: Hobby::class, options: ['default' => '[]'])]
+    private array $hobbies = [];
 
     public function __construct(
         #[ORM\Id]
@@ -156,5 +160,21 @@ class Answer
     public function setGuessedEmotion(WalkerEmotion $emotion):void
     {
         $this->guessedEmotion = $emotion;
+    }
+
+    /**
+     * @return Hobby[]
+     */
+    public function getHobbies(): array
+    {
+        return $this->hobbies;
+    }
+
+    /**
+     * @param Hobby[] $hobbies
+     */
+    public function setHobbies(array $hobbies): void
+    {
+        $this->hobbies = $hobbies;
     }
 }

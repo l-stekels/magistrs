@@ -8,12 +8,11 @@ use App\Entity\Trait\Timestamped;
 use App\Repository\TestRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Symfony\Component\Uid\Uuid;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: TestRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#[ORM\UniqueConstraint(name: 'unique_active_test',columns: ['active'], options: ['where' => '(active IS TRUE)'])]
 class Test
 {
     use Timestamped;
@@ -24,9 +23,6 @@ class Test
     #[ORM\OneToMany(targetEntity: Answer::class, mappedBy: 'test', orphanRemoval: true)]
     #[ORM\OrderBy(['createdAt' => 'ASC'])]
     private Collection $answers;
-
-    #[ORM\Column(type: 'boolean')]
-    private ?bool $active = null;
 
     public function __construct(
         #[ORM\Id]
@@ -66,15 +62,5 @@ class Test
         if (!$this->answers->contains($item)) {
             $this->answers->add($item);
         }
-    }
-
-    public function getActive(): ?true
-    {
-        return $this->active;
-    }
-
-    public function setActive(?true $active): void
-    {
-        $this->active = $active;
     }
 }

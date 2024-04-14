@@ -10,8 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Lock\LockFactory;
 use Symfony\Component\Routing\Attribute\Route;
 
-
-class HealthController extends AbstractController
+class HealthAction extends AbstractController
 {
     public function __construct(
         private readonly TestRepository $testRepo,
@@ -20,7 +19,7 @@ class HealthController extends AbstractController
     }
 
     #[Route('/health', name: 'health')]
-    public function index(): Response
+    public function __invoke(): Response
     {
         $status = 'OK';
         $lock = null;

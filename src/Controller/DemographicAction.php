@@ -1,0 +1,55 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Controller;
+
+use App\Form\AnswerType;
+use App\Messenger\Command\StartAnswer;
+use App\Repository\TestRepository;
+use Detection\Exception\MobileDetectException;
+use Detection\MobileDetect;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Uid\Uuid;
+
+class DemographicAction extends AbstractController
+{
+    public function __construct(
+        private readonly MobileDetect $mobileDetect,
+        private readonly TestRepository $testRepo,
+        private readonly MessageBusInterface $commandBus,
+    ) {
+    }
+
+    #[Route('/demographic', name: 'demographic', methods: ['GET', 'POST'])]
+    public function __invoke(Request $request): Response
+    {
+        $this->mobileDetect->setUserAgent($request->headers->get('User-Agent'));
+        try {
+            $isMobile = $this->mobileDetect->isMobile();
+        } catch (MobileDetectException) {
+            $isMobile = false;
+        }
+        $test = $this->testRepo->getActiveTest();
+        $command = new StartAnswer(
+            Uuid::v4(),
+            $isMobile,
+            $test->getId(),
+        );
+        $form = $this->createForm(AnswerType::class, $command);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->commandBus->dispatch($command);
+
+            return $this->redirectToRoute('bio_motion_start', ['id' => $command->id->toRfc4122()]);
+        }
+
+        return $this->render('test/demographic.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+}

@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-class FinController extends AbstractController
+class FinishAction extends AbstractController
 {
     public function __construct(
         private readonly AnswerRepository $answerRepo,
@@ -19,7 +19,7 @@ class FinController extends AbstractController
     }
 
     #[Route('/fin/{id}', name: 'fin', methods: ['GET'])]
-    public function fin(Answer $answer): Response
+    public function __invoke(Answer $answer): Response
     {
         $translateEmotion = static fn (?WalkerEmotion $e) => match ($e) {
             WalkerEmotion::SAD => 'bēdīgs',

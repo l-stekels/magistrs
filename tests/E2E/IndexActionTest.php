@@ -6,7 +6,7 @@ namespace App\Tests\E2E;
 
 use Symfony\Component\Panther\PantherTestCase;
 
-class IndexTest extends PantherTestCase
+class IndexActionTest extends PantherTestCase
 {
     public function testIndex(): void
     {

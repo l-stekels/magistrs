@@ -68,3 +68,10 @@ sf: ## List all Symfony commands or pass the parameter "c=" to run a given comma
 
 cc: c=c:c ## Clear the cache
 cc: sf
+
+## -- Migrations 🗄️ —————————————————————————————————————————————————————————————
+migrate: ## Run migrations
+	@$(SYMFONY) doctrine:migrations:migrate --no-interaction
+
+diff: ## Create a new migration by comparing your current database to your mapping information
+	@$(SYMFONY) doctrine:migrations:diff --no-interaction

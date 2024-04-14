@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Messenger\Command;
 
+use App\Enum\Education;
 use App\Enum\Gender;
 use App\Messenger\Middleware\LockableMessageInterface;
 use Symfony\Component\Uid\Uuid;
@@ -16,6 +17,10 @@ class StartAnswer implements LockableMessageInterface
     #[Assert\Positive]
     #[Assert\Range(min: 1, max: 100)]
     private int $age;
+
+    private Education $education;
+
+    private array $hobbies;
 
     public function __construct(
         public readonly Uuid $id,
@@ -47,5 +52,30 @@ class StartAnswer implements LockableMessageInterface
     public function getLockKey(): string
     {
         return 'start_test_'.$this->id->toRfc4122();
+    }
+
+    public function getEducation(): Education
+    {
+        return $this->education;
+    }
+
+    public function setEducation(Education $education): void
+    {
+        $this->education = $education;
+    }
+
+    public function getHobbies(): array
+    {
+        return $this->hobbies;
+    }
+
+    public function setHobbies(array $hobbies): void
+    {
+        $this->hobbies = $hobbies;
+    }
+
+    public function addHobby(): void
+    {
+
     }
 }

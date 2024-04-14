@@ -110,7 +110,7 @@ header p {
 
 /* Input Text */
 input[type="text"], input[type="number"] {
-    width: 90%;
+    width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
     box-sizing: border-box;
@@ -173,4 +173,24 @@ select:focus {
 @keyframes fadeOut {
     0% {opacity: 1;}
     100% {opacity: 0;}
+}
+
+#answer_hobbies {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr 2fr;
+    gap: 10px;
+    align-items: center;
+}
+
+#answer_hobbies label {
+    display: block;
+}
+
+#answer_submit {
+    margin-top: 1rem;
+}
+
+.help-text {
+    font-size: 0.8rem;
+    color: var(--secondary-color);
 }

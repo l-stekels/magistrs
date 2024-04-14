@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Form;
 
+use App\Enum\Education;
 use App\Enum\Gender;
+use App\Enum\Hobby;
 use App\Messenger\Command\StartAnswer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
@@ -31,6 +33,22 @@ class AnswerType extends AbstractType
                 'max' => 100,
                 'step' => 1,
             ],
+        ]);
+        $builder->add('education', EnumType::class, [
+            'label' => 'Izglītība',
+            'required' => true,
+            'placeholder' => '',
+            'class' => Education::class,
+            'choice_label' => fn(Education $education) => $education->value,
+        ]);
+        $builder->add('hobbies', EnumType::class, [
+            'label' => 'Hobiji',
+            'required' => false,
+            'multiple' => true,
+            'expanded' => true,
+            'class' => Hobby::class,
+            'choice_label' => fn(Hobby $hobby) => $hobby->value,
+            'help' => 'Izvēlaties vienu vai vairākus brīvā laika pavadīšanas veidus, ar kuriem Jūs nodarbojaties.',
         ]);
         $builder->add('submit', SubmitType::class, [
             'label' => 'Saglabāt',
