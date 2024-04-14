@@ -24,10 +24,15 @@ class Test
     #[ORM\OrderBy(['createdAt' => 'ASC'])]
     private Collection $answers;
 
+    #[ORM\Column(nullable: false)]
+    private bool $isEyeTracking;
+
     public function __construct(
         #[ORM\Id]
         #[ORM\Column(type: 'uuid')]
         private readonly Uuid $id,
+        #[ORM\Column(unique: true)]
+        private string $shortIdentifier,
         #[ORM\Column]
         private string $title,
     ) {
@@ -62,5 +67,25 @@ class Test
         if (!$this->answers->contains($item)) {
             $this->answers->add($item);
         }
+    }
+
+    public function getShortIdentifier(): string
+    {
+        return $this->shortIdentifier;
+    }
+
+    public function setShortIdentifier(string $shortIdentifier): void
+    {
+        $this->shortIdentifier = $shortIdentifier;
+    }
+
+    public function isEyeTracking(): bool
+    {
+        return $this->isEyeTracking;
+    }
+
+    public function setEyeTracking(bool $isEyeTracking): void
+    {
+        $this->isEyeTracking = $isEyeTracking;
     }
 }

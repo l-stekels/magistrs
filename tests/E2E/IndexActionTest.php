@@ -4,22 +4,24 @@ declare(strict_types=1);
 
 namespace App\Tests\E2E;
 
-use Symfony\Component\Panther\PantherTestCase;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Zenstruck\Browser\Test\HasBrowser;
+use Zenstruck\Foundry\Test\Factories;
+use Zenstruck\Foundry\Test\ResetDatabase;
 
-class IndexActionTest extends PantherTestCase
+class IndexActionTest extends WebTestCase
 {
-    public function testIndex(): void
+    use HasBrowser;
+    use ResetDatabase;
+    use Factories;
+
+    public function testIndexWithNoTests(): void
     {
-        $client = static::createPantherClient(); // Your app is automatically started using the built-in web server
-        $crawler = $client->request('GET', '/');
-
-        self::assertPageTitleContains('Maģistra darbs');
-
-        // Click on the button/link. Replace 'button-id' with the id or text of your button
-        $link = $crawler->selectLink('Sākt')->link();
-        $client->click($link);
-
-        // Assert the current URL or page content to verify the redirection
-        $this->assertSame('http://127.0.0.1:9080/demographic', $client->getCurrentURL());
+        $this->browser()
+            ->visit('/')
+            ->assertSuccessful()
+            ->assertSeeIn('h1', 'Bioloģiskās kustības emociju atpazīšanas sliekšņa noteikšanas tests')
+            ->assertSeeIn('p', 'Sveiki!')
+            ->assertNotSeeIn('a' , 'Sākt');
     }
 }
