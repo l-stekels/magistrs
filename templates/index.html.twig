@@ -10,6 +10,8 @@
         <p>
             Paldies!
         </p>
-        <a href="{{ path('demographic') }}" class="button button-primary">Sākt</a>
+        {% if test %}
+            <a href="{{ path('demographic') }}" class="button button-primary">Sākt</a>
+        {% endif %}
     </header>
 {% endblock %}

@@ -14,7 +14,6 @@ class IndexAction extends AbstractController
     #[Route('/{shortIdentifier?}', name: 'home', methods: ['GET'])]
     public function index(?Test $test): Response
     {
-
-        return $this->render('index.html.twig');
+        return $this->render('index.html.twig', compact('test'));
     }
 }

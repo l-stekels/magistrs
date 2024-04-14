@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\Test;
 use App\Form\AnswerType;
 use App\Messenger\Command\StartAnswer;
-use App\Repository\TestRepository;
 use Detection\Exception\MobileDetectException;
 use Detection\MobileDetect;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,13 +20,12 @@ class DemographicAction extends AbstractController
 {
     public function __construct(
         private readonly MobileDetect $mobileDetect,
-        private readonly TestRepository $testRepo,
         private readonly MessageBusInterface $commandBus,
     ) {
     }
 
-    #[Route('/demographic', name: 'demographic', methods: ['GET', 'POST'])]
-    public function __invoke(Request $request): Response
+    #[Route('/demographic/{shortIdentifier}', name: 'demographic', methods: ['GET', 'POST'])]
+    public function __invoke(Request $request, Test $test): Response
     {
         $this->mobileDetect->setUserAgent($request->headers->get('User-Agent'));
         try {
@@ -34,7 +33,6 @@ class DemographicAction extends AbstractController
         } catch (MobileDetectException) {
             $isMobile = false;
         }
-        $test = $this->testRepo->getActiveTest();
         $command = new StartAnswer(
             Uuid::v4(),
             $isMobile,
