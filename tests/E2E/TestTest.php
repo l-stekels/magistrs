@@ -20,7 +20,7 @@ class TestTest extends PantherTestCase
         $this->assertSame('http://127.0.0.1:9080/demographic', $client->getCurrentURL());
     }
 
-    public function testDemographicSubmit()
+    public function testDemographicSubmit(): void
     {
         $client = static::createPantherClient(); // Your app is automatically started using the built-in web server
         $crawler = $client->request('GET', '/demographic');

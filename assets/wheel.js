@@ -8,7 +8,7 @@ const gew = GEW.default({
   isMobile: false,
   element: "#wheel",
   R: 80,
-  maxElements: 1,
+  maxElements: 3,
   showLines: true,
   showBorder: true,
   headerTop: 'nav emociju',
@@ -56,43 +56,62 @@ gew.otherEmotion.onSave.subscribe(data => {
   form.submit();
 });
 
-let previouslySelected = null;
+
 const svg = gew.mainElement;
+// // Padara apli melnbaltu
 
-// Nav emociju izvēle
-let aElements = svg.getElementsByTagName('a');
-let links = [];
-for(let i = 0; i < aElements.length; i++) {
-  if(!aElements[i].classList.value.startsWith('row_')) {
-    links.push(aElements[i]);
-  }
-}
-links[0].addEventListener('click', (e) => {
-  intensityInput.value = '';
-  customEmotionInput.value = '';
-  emotionInput.value = '';
-  form.submit();
-});
-
-gew.elementClick().subscribe(data => {
-  if (null !== previouslySelected) {
-    previouslySelected.classList.remove('active');
-  }
-  const selectedIndex = data.findIndex(e => e !== null);
-  if (selectedIndex === -1) {
-    previouslySelected = null;
+// // Iezīmē visus aplīšus
+const circles = svg.querySelectorAll('circle');
+// Iet cauri visiem un noņem pildījumu un uzliek melnu kontūru
+circles.forEach(circle => {
+  // izņemot vidējam
+  if (circle.classList.contains('line_border')) {
     return;
   }
+  circle.style.fill = 'rgba(177,178,178,0)'; // Remove the fill
+  circle.style.stroke = 'rgb(0,0,0)'; // Set the stroke color to black
+});
+
+// Nav emociju izvēle
+// let aElements = svg.getElementsByTagName('a');
+// let links = [];
+// for(let i = 0; i < aElements.length; i++) {
+//   if(!aElements[i].classList.value.startsWith('row_')) {
+//     links.push(aElements[i]);
+//   }
+// }
+// links[0].addEventListener('click', (e) => {
+//   intensityInput.value = '';
+//   customEmotionInput.value = '';
+//   emotionInput.value = '';
+//   form.submit();
+// });
+
+let previouslySelected = [];
+gew.elementClick().subscribe(data => {
+  // if ([] !== previouslySelected) {
+  //   previouslySelected.forEach(e => {
+  //     e.style.fill = 'rgba(177,178,178,0)'; // Remove the fill
+  //     e.style.stroke = 'rgb(0,0,0)'; // Set the stroke color to black
+  //   })
+  //   previouslySelected = [];
+  // }
+  // TODO: fix this
+  const selectedIndex = data.findIndex(e => e !== null);
+  if (selectedIndex === -1) {
+    return;
+  }
+  console.log(selectedIndex);
   const selected = data[selectedIndex];
 
   const selectedRow = svg.querySelector(`.line_${selectedIndex + 1}`);
   const selectedElement = selectedRow.querySelector(`.row_${selected}`);
-  selectedElement.classList.add('active');
-  previouslySelected = selectedElement;
+  selectedElement.children[0].style = null;
+  previouslySelected.push(selectedElement.children[0]);
 
   const emotion = data.findIndex(e => e !== null);
   const intensity = data[emotion];
   emotionInput.value = emotion;
-  intensityInput.value = intensity + 1;
+  intensityInput.value = intensity + 1; //0-based index
   customEmotionInput.value = '';
 });

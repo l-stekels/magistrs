@@ -50,11 +50,12 @@ const startEmotion = (step) => {
 };
 
 const startMotionButton = document.getElementById('start-motion');
+const overlay = document.getElementById('overlay');
 let time = 0;
 startMotionButton.addEventListener('click', (e) => {
   e.preventDefault();
   // Novāc overlay
-  document.getElementById('overlay').style.display = 'none';
+  overlay.style.display = 'none';
   // Figūra sāk soļot
   bmWalker.setSpeed(1);
   // Figūras emocijas mainās
@@ -100,3 +101,19 @@ const buttonClickHandler = (e) => {
 }
 sadButton.addEventListener('click', buttonClickHandler);
 happyButton.addEventListener('click', buttonClickHandler);
+
+window.addEventListener('keydown', function(event) {
+  if (overlay.style.display !== 'none') {
+    return;
+  }
+  switch (event.key) {
+    case 'ArrowLeft': // Left arrow key
+      buttonClickHandler({target: {id: 'sad-button'}});
+      sadButton.form.submit();
+      break;
+    case 'ArrowRight': // Right arrow key
+      buttonClickHandler({target: {id: 'happy-button'}});
+      happyButton.form.submit();
+      break;
+  }
+});
