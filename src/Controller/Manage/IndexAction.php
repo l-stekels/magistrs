@@ -13,6 +13,9 @@ class IndexAction extends AbstractController
     #[Route('/manage', name: 'manage', methods: ['GET'])]
     public function __invoke(): Response
     {
-        return $this->render('manage/index.html.twig');
+        if ($this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('manage_tests_index');
+        }
+        return $this->redirectToRoute('manage_answers_index');
     }
 }

@@ -75,3 +75,7 @@ migrate: ## Run migrations
 
 diff: ## Create a new migration by comparing your current database to your mapping information
 	@$(SYMFONY) doctrine:migrations:diff --no-interaction
+
+migrate-down:
+	@$(eval c ?=)
+	@$(SYMFONY) doctrine:migrations:execute --down $(c) --no-interaction

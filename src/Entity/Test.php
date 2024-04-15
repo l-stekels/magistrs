@@ -27,12 +27,14 @@ class Test
     #[ORM\Column(nullable: false)]
     private bool $isEyeTracking;
 
+    /** Whether the test is shared with manager user and answers are visible to them */
+    #[ORM\Column(nullable: false, options: ['default' => false])]
+    private bool $isShared = false;
+
     public function __construct(
         #[ORM\Id]
         #[ORM\Column(type: 'uuid')]
         private readonly Uuid $id,
-        #[ORM\Column(unique: true)]
-        private string $shortIdentifier,
         #[ORM\Column]
         private string $title,
     ) {
@@ -69,23 +71,23 @@ class Test
         }
     }
 
-    public function getShortIdentifier(): string
-    {
-        return $this->shortIdentifier;
-    }
-
-    public function setShortIdentifier(string $shortIdentifier): void
-    {
-        $this->shortIdentifier = $shortIdentifier;
-    }
-
     public function isEyeTracking(): bool
     {
         return $this->isEyeTracking;
     }
 
-    public function setEyeTracking(bool $isEyeTracking): void
+    public function setEyeTracking(bool $eyeTracking): void
     {
-        $this->isEyeTracking = $isEyeTracking;
+        $this->isEyeTracking = $eyeTracking;
+    }
+
+    public function isShared(): bool
+    {
+        return $this->isShared;
+    }
+
+    public function setShared(bool $shared): void
+    {
+        $this->isShared = $shared;
     }
 }

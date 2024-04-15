@@ -28,6 +28,10 @@ return [
         'path' => './assets/fin.js',
         'entrypoint' => true,
     ],
+    'admin' => [
+        'path' => './assets/admin.js',
+        'entrypoint' => true,
+    ],
     'p5' => [
         'version' => '1.9.2',
     ],

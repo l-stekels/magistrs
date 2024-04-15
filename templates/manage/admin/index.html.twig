@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block importmap %}{{ importmap(['app', 'admin']) }}{% endblock %}
+
+{% block content %}
+    <div>
+        <h1>Izveidotie testi</h1>
+        <div>
+            <a href="{{ path('manage_tests_new') }}">Izveidot jaunu</a>
+        </div>
+    </div>
+    <div class="table-container">
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nosaukums</th>
+                <th>Īsais ID</th>
+                <th>Acu sekošanas tests</th>
+                <th>Kopīgots</th>
+                <th>Atbilžu skaits</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>1</td>
+                <td>Test Title 1</td>
+                <td>ShortId1</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>10</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
