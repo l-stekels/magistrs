@@ -6,7 +6,7 @@ namespace App\Controller\Manage;
 
 use App\Entity\Test;
 use App\Form\TestType;
-use App\Messenger\Command\CreateTest;
+use App\Messenger\Command\CreateOrEditTest;
 use App\Repository\TestRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,7 +39,7 @@ class TestsController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
-        $command = new CreateTest(
+        $command = new CreateOrEditTest(
             Uuid::v4(),
         );
         $form = $this->createForm(TestType::class, $command);
@@ -66,12 +66,27 @@ class TestsController extends AbstractController
     }
 
     #[Route('/manage/tests/{id}/edit', name: 'manage_tests_edit', requirements: ['id' => Requirement::UUID_V4], methods: ['GET', 'POST',])]
-    public function edit(Test $test): Response
+    public function edit(Test $test, Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
+        $command = new CreateOrEditTest(
+            $test->getId(),
+        );
+        $command->setTitle($test->getTitle());
+        $command->setIsShared($test->isShared());
+        $command->setIsEyeTracking($test->isEyeTracking());
+        $form = $this->createForm(TestType::class, $command);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->commandBus->dispatch($command);
+
+            return $this->redirectToRoute('manage_tests_show', ['id' => $command->id]);
+        }
+
         return $this->render('manage/admin/edit.html.twig', [
             'test' => $test,
+            'form' => $form->createView(),
         ]);
     }
 }

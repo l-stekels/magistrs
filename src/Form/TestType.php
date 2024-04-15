@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Form;
 
-use App\Messenger\Command\CreateTest;
+use App\Messenger\Command\CreateOrEditTest;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -22,6 +22,7 @@ class TestType extends AbstractType
         ]);
         $builder->add('isEyeTracking', CheckboxType::class, [
             'label' => 'Skatiena pārneses eksperiments',
+            'required' => false,
         ]);
         $builder->add('isShared', CheckboxType::class, [
             'label' => 'Redzams visiem',
@@ -29,14 +30,13 @@ class TestType extends AbstractType
         ]);
         $builder->add('submit', SubmitType::class, [
             'label' => 'Saglabāt',
-            'required' => false,
         ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => CreateTest::class,
+            'data_class' => CreateOrEditTest::class,
         ]);
     }
 }

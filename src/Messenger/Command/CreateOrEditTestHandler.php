@@ -9,19 +9,20 @@ use App\Repository\TestRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-readonly class CreateTestHandler
+readonly class CreateOrEditTestHandler
 {
     public function __construct(
         private TestRepository $testRepository,
     ) {
     }
 
-    public function __invoke(CreateTest $command): void
+    public function __invoke(CreateOrEditTest $command): void
     {
-        $test = new Test(
-            $command->id,
-            $command->getTitle(),
-        );
+        $test = $this->testRepository->find($command->id);
+        if (null === $test) {
+            $test = new Test($command->id);
+        }
+        $test->setTitle($command->getTitle());
         $test->setEyeTracking($command->isEyeTracking());
         $test->setShared($command->isShared());
         $this->testRepository->save($test);

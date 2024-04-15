@@ -17,6 +17,9 @@ class Test
 {
     use Timestamped;
 
+    #[ORM\Column]
+    private string $title;
+
     /**
      * @var Collection<int, Answer> $items
      */
@@ -35,8 +38,6 @@ class Test
         #[ORM\Id]
         #[ORM\Column(type: 'uuid')]
         private readonly Uuid $id,
-        #[ORM\Column]
-        private string $title,
     ) {
         $this->answers = new ArrayCollection();
     }

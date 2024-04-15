@@ -7,7 +7,7 @@ namespace App\Messenger\Command;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class CreateTest
+class CreateOrEditTest
 {
     #[Assert\NotBlank]
     #[Assert\Length(min: 3, max: 255)]

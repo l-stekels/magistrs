@@ -1,10 +1,20 @@
 {% extends 'base.html.twig' %}
-{#{% block importmap %}#}
-
-{#{% endblock %}#}
 
 {% block content %}
-    Show test
+    <div class="container">
+        <h1>Test Details</h1>
+        <div class="card">
+            <h2>{{ test.title }}</h2>
+            <ul>
+                <li>Created at: {{ test.createdAt|date('Y-m-d H:i') }}</li>
+                <li>Updated at: {{ test.updatedAt|date('Y-m-d H:i') }}</li>
+            </ul>
+            <div>
+                <a href="{{ path('manage_tests_edit', {'id': test.id}) }}" class="button button-primary">Edit</a>
+                <a href="{{ path('manage_tests_index') }}" class="button button-primary">Back to list</a>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 

@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class IndexAction extends AbstractController
 {
-    #[Route('/{shortIdentifier?}', name: 'home', methods: ['GET'])]
+    #[Route('/{id?}', name: 'home', methods: ['GET'])]
     public function index(?Test $test): Response
     {
         return $this->render('index.html.twig', compact('test'));
