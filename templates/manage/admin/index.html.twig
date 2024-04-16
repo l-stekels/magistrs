@@ -18,6 +18,7 @@
                 <th>Acu sekošanas tests</th>
                 <th>Kopīgots</th>
                 <th>Atbilžu skaits</th>
+                <th>Saite uz testu</th>
             </tr>
             </thead>
             <tbody>
@@ -28,6 +29,7 @@
                     <td>{{ test.eyeTracking ? 'Jā' : 'Nē' }}</td>
                     <td>{{ test.shared ? 'Jā' : 'Nē' }}</td>
                     <td>{{ test.answers.count }}</td>
+                    <td><a href="{{ path('home', {id: test.id}) }}">Saite uz test</a></td>
                 </tr>
             {% endfor %}
             </tbody>
