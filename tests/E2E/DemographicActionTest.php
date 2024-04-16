@@ -9,18 +9,9 @@ use App\Enum\Gender;
 use App\Enum\Hobby;
 use App\Tests\Fixture\Factory\AnswerFactory;
 use Fixture\Factory\TestFactory;
-use PHPUnit\Framework\Attributes\DataProvider;
-use Symfony\Component\Panther\PantherTestCase;
-use Zenstruck\Browser\Test\HasBrowser;
-use Zenstruck\Foundry\Test\Factories;
-use Zenstruck\Foundry\Test\ResetDatabase;
 
-class DemographicActionTest extends PantherTestCase
+class DemographicActionTest extends BaseE2ETestCaseTest
 {
-    use HasBrowser;
-    use ResetDatabase;
-    use Factories;
-
     public function testFormSubmission(): void
     {
         $test = TestFactory::createOne();
@@ -28,7 +19,8 @@ class DemographicActionTest extends PantherTestCase
         $age = random_int(18, 99);
         $education = Education::cases()[array_rand(Education::cases())];
 
-        $this->browser()
+        $browser = $this->browser()
+            ->interceptRedirects()
             ->visit('/demographic/'.$test->getId()->toRfc4122())
             ->assertSuccessful()
             ->fillField('answer[gender]', $gender->value)
@@ -42,6 +34,7 @@ class DemographicActionTest extends PantherTestCase
         $answer = AnswerFactory::repository()->findOneBy([
             'test' => $test,
         ]);
+        $browser->assertRedirectedTo('/gew/'.$answer->getId()->toRfc4122());
         self::assertSame($answer->getGender(), $gender);
         self::assertSame($answer->getAge(), $age);
         self::assertSame($answer->getEducation(), $education);

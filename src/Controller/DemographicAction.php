@@ -41,9 +41,10 @@ class DemographicAction extends AbstractController
         $form = $this->createForm(AnswerType::class, $command);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            // TODO: Catch and handle validation exception
             $this->commandBus->dispatch($command);
 
-            return $this->redirectToRoute('bio_motion_start', ['id' => $command->id->toRfc4122()]);
+            return $this->redirectToRoute('emotion_wheel', ['id' => $command->id->toRfc4122()]);
         }
 
         return $this->render('test/demographic.html.twig', [

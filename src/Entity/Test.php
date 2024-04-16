@@ -37,7 +37,7 @@ class Test
     public function __construct(
         #[ORM\Id]
         #[ORM\Column(type: 'uuid')]
-        private readonly Uuid $id,
+        private Uuid $id,
     ) {
         $this->answers = new ArrayCollection();
     }

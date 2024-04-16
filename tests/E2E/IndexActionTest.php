@@ -4,17 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tests\E2E;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Zenstruck\Browser\Test\HasBrowser;
-use Zenstruck\Foundry\Test\Factories;
-use Zenstruck\Foundry\Test\ResetDatabase;
+use Fixture\Factory\TestFactory;
 
-class IndexActionTest extends WebTestCase
+class IndexActionTest extends BaseE2ETestCaseTest
 {
-    use HasBrowser;
-    use ResetDatabase;
-    use Factories;
-
     public function testIndexWithNoTests(): void
     {
         $this->browser()
@@ -22,6 +15,30 @@ class IndexActionTest extends WebTestCase
             ->assertSuccessful()
             ->assertSeeIn('h1', 'Bioloģiskās kustības emociju atpazīšanas sliekšņa noteikšanas tests')
             ->assertSeeIn('p', 'Sveiki!')
-            ->assertNotSeeIn('a' , 'Sākt');
+            ->assertNotSeeElement('a[href^="/demographic/"]');
+    }
+
+    public function testIndexWithRandomTest(): void
+    {
+        $test = TestFactory::createOne();
+
+        $this->browser()
+            ->visit('/')
+            ->assertSuccessful()
+            ->assertSeeIn('h1', 'Bioloģiskās kustības emociju atpazīšanas sliekšņa noteikšanas tests')
+            ->assertSeeIn('p', 'Sveiki!')
+            ->assertSeeElement(sprintf('a[href="/demographic/%s"]', $test->getId()->toRfc4122()));
+    }
+
+    public function testIndexWithSpecificTest(): void
+    {
+        $test = TestFactory::createOne();
+
+        $this->browser()
+            ->visit(sprintf('/%s', $test->getId()->toRfc4122()))
+            ->assertSuccessful()
+            ->assertSeeIn('h1', 'Bioloģiskās kustības emociju atpazīšanas sliekšņa noteikšanas tests')
+            ->assertSeeIn('p', 'Sveiki!')
+            ->assertSeeElement(sprintf('a[href="/demographic/%s"]', $test->getId()->toRfc4122()));
     }
 }
