@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Messenger\Command;
 
+use App\Enum\WalkerEmotion;
 use App\Repository\AnswerRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
@@ -19,8 +20,7 @@ readonly class AnswerThresholdHandler
     {
         $answer = $this->answerRepo->get($command->answerId);
         $answer->setThreshold($command->getThreshold());
-        $answer->setGuessedEmotion($command->getGuessedEmotion());
-        $answer->setWalkerEmotion($command->walkerEmotion);
+        $answer->setGuessedEmotion(WalkerEmotion::from($command->getGuessedEmotion()));
         $this->answerRepo->flush();
     }
 }

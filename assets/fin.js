@@ -45,7 +45,7 @@ let chart = new Chart(ctx, {
         beginAtZero: true,
         title: {
           display: true,
-          text: 'Laiks (sekundes)'
+          text: 'Vidējais minējuma laiks (sekundes)'
         }
       }
     }

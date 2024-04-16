@@ -26,5 +26,7 @@ class GewActionTest extends BaseE2ETestCase
         self::assertEmpty($freshAnswer->getGewEmotions());
         self::assertEmpty($freshAnswer->getCompletedAt());
         self::assertEmpty($freshAnswer->getCustomEmotion());
+        self::assertNotNull($freshAnswer->getWalkerEmotion(), 'Walker emotion should be set at the end of this step');
     }
+    // TODO: Determine how to test clicks on different parts of the wheel
 }

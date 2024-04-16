@@ -74,30 +74,31 @@ startMotionButton.addEventListener('click', (e) => {
   time = Date.now();
 });
 
-const sadButton = document.getElementById('sad-button');
-const happyButton = document.getElementById('happy-button');
-const guessedInput = document.getElementById('guessed-emotion');
+const sadButton = document.getElementById('bio_motion_bedigs');
+const happyButton = document.getElementById('bio_motion_priecigs');
+const guessedInput = document.getElementById('bio_motion_guessedEmotion');
 
 const buttonClickHandler = (e) => {
   bmWalker.setSpeed(0);
   const elapsedTime = Date.now() - time;
   switch (e.target.id) {
-    case 'sad-button':
+    case 'bio_motion_bedigs':
       guessedInput.value = 'sad';
       break;
-    case 'happy-button':
+    case 'bio_motion_priecigs':
       guessedInput.value = 'happy';
       break;
     default:
       guessedInput.value = '';
       break;
   }
-  const thresholdInput = document.getElementById('threshold-input');
+  const thresholdInput = document.getElementById('bio_motion_threshold');
   thresholdInput.value = elapsedTime;
   const debugTimeContainer = document.getElementById('debug-time');
   if (null !== debugTimeContainer) {
     debugTimeContainer.textContent = `Time: ${elapsedTime}ms`;
   }
+  e.target.form.submit();
 }
 sadButton.addEventListener('click', buttonClickHandler);
 happyButton.addEventListener('click', buttonClickHandler);

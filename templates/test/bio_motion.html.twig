@@ -11,23 +11,25 @@
 
 {% block content %}
     <div id="canvas-container"></div>
-    <form class="buttons" method="post">
-        <input type="hidden" name="token" value="{{ csrf_token('save-threshold') }}">
-        <input id="threshold-input" type="hidden" name="threshold">
-        <input id="guessed-emotion" type="hidden" name="guessed-emotion">
-        <button type="submit" id="sad-button">Bēdīgs</button>
-        <button type="submit" id="happy-button">Priecīgs</button>
-    </form>
+    {{ form_start(form, { 'attr' : { 'class': 'buttons' }} ) }}
+        {{ form_row(form.threshold) }}
+        {{ form_row(form.guessedEmotion) }}
+
+        {{ form_widget(form.bedigs) }}
+        {{ form_widget(form.priecigs) }}
+    {{ form_end(form) }}
     <div id="overlay">
         <div class="overlay-container">
             <p>
                 Tests sāksies pēc tam, kad nospiedīsiet pogu "Sākt".
             </p>
             <p>
-                Tad figūra melnajā laukumā uzsāks kustību. Sākotnēji kustība būs neitrāla, bet pēc pāris sekundēm tā mainīsies.
+                Tad figūra melnajā laukumā uzsāks kustību. Sākotnēji kustība būs neitrāla, bet pēc pāris sekundēm tā
+                mainīsies.
             </p>
             <p>
-                Jūsu uzdevums ir izvēlēties, kādai emocijai šīs figūras kustība atbilst visvairāk un nospiest attiecīgo pogu!
+                Jūsu uzdevums ir izvēlēties, kādai emocijai šīs figūras kustība atbilst visvairāk un nospiest attiecīgo
+                pogu!
                 Ja emocija, Jūsuprāt, ir neskaidra, tad izvēlieties to, kura vairāk atbilst.
             </p>
             <button class="button button-primary-inverted" id="start-motion">Sākt</button>

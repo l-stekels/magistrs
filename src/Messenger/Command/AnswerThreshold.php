@@ -14,7 +14,8 @@ class AnswerThreshold
     #[Assert\Range(min: 1)]
     private int $threshold;
 
-    private ?WalkerEmotion $guessedEmotion = null;
+    #[Assert\Choice(callback: [WalkerEmotion::class, 'values'])]
+    private string $guessedEmotion;
 
     public function __construct(
         public readonly Uuid $answerId,
@@ -32,12 +33,12 @@ class AnswerThreshold
         return $this->threshold;
     }
 
-    public function getGuessedEmotion(): ?WalkerEmotion
+    public function getGuessedEmotion(): string
     {
         return $this->guessedEmotion;
     }
 
-    public function setGuessedEmotion(WalkerEmotion $guessedEmotion): void
+    public function setGuessedEmotion(string $guessedEmotion): void
     {
         $this->guessedEmotion = $guessedEmotion;
     }

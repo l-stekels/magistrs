@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Entity\Answer;
 use App\Enum\WalkerEmotion;
+use App\Form\BioMotionType;
 use App\Messenger\Command\AnswerThreshold;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,31 +27,27 @@ class BioMotionAction extends AbstractController
         if ($answer->getCompletedAt() !== null) {
             return $this->redirectToRoute('fin', ['id' => $answer->getId()]);
         }
-        // Determine walker emotion
-        $walkerEmotion = WalkerEmotion::random();
         $command = new AnswerThreshold(
             $answer->getId(),
-            $walkerEmotion,
+            $answer->getWalkerEmotion(),
         );
-        if ($request->isMethod('GET')) {
-            return $this->render('test/bio_motion.html.twig', [
-                'emotion' => $walkerEmotion,
-            ]);
-        }
-        $csrfToken = $request->getPayload()->get('token');
-        if (!$this->isCsrfTokenValid('save-threshold', $csrfToken)) {
-            return new Response(':(');
+        $form = $this->createForm(BioMotionType::class, $command);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $this->commandBus->dispatch($command);
+
+                return $this->redirectToRoute('fin', ['id' => $answer->getId()]);
+            } catch (\Throwable) {
+                $this->addFlash('error', 'Diemžēl neizdevās saglabāt atbildi, lūdzu mēģiniet vēlreiz');
+
+                return $this->redirectToRoute('bio_motion_start', ['id' => $answer->getId()]);
+            }
         }
 
-        $command->setThreshold((int) $request->getPayload()->get('threshold'));
-        $command->setGuessedEmotion(WalkerEmotion::tryFrom($request->getPayload()->get('guessed-emotion')));
-        try {
-            $this->commandBus->dispatch($command);
-        } catch (\Throwable) {
-            $this->addFlash('error', 'Diemžēl neizdevās saglabāt atbildi, lūdzu mēģiniet vēlreiz');
-            return $this->redirectToRoute('bio_motion_start', ['id' => $answer->getId()]);
-        }
-
-        return $this->redirectToRoute('fin', ['id' => $answer->getId()]);
+        return $this->render('test/bio_motion.html.twig', [
+            'emotion' => $answer->getWalkerEmotion(),
+            'form' => $form->createView(),
+        ]);
     }
 }
