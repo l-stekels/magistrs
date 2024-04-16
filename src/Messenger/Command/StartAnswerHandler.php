@@ -28,6 +28,8 @@ readonly class StartAnswerHandler
         );
         $answer->setAge($command->getAge());
         $answer->setGender($command->getGender());
+        $answer->setHobbies($command->getHobbies());
+        $answer->setEducation($command->getEducation());
         $this->answerRepository->save($answer);
     }
 }

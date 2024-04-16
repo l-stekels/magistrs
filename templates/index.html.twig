@@ -11,7 +11,7 @@
             Paldies!
         </p>
         {% if test %}
-            <a href="{{ path('demographic') }}" class="button button-primary">Sākt</a>
+            <a href="{{ path('demographic', {id: test.id}) }}" class="button button-primary">Sākt</a>
         {% endif %}
     </header>
 {% endblock %}

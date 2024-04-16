@@ -27,4 +27,17 @@ class TestRepository extends AbstractRepository
 
         return $test;
     }
+
+    public function findForUser(bool $isAdmin): array
+    {
+        $qb = $this->createQueryBuilder('test')
+            ->select('test', 'answers')
+            ->leftJoin('test.answers', 'answers');
+        if (!$isAdmin) {
+            $qb->andWhere('test.isShared = true');
+        }
+
+        return $qb->getQuery()
+            ->getResult();
+    }
 }

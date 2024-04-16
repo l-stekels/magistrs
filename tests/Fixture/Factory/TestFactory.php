@@ -25,6 +25,8 @@ class TestFactory extends ModelFactory
         return [
             'id' => Uuid::v4(),
             'title' => self::faker()->sentence(2),
+            'isEyeTracking' => false,
+            'isShared' => false,
         ];
     }
 

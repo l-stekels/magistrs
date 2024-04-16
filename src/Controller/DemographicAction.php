@@ -24,7 +24,7 @@ class DemographicAction extends AbstractController
     ) {
     }
 
-    #[Route('/demographic/{shortIdentifier}', name: 'demographic', methods: ['GET', 'POST'])]
+    #[Route('/demographic/{id}', name: 'demographic', methods: ['GET', 'POST'])]
     public function __invoke(Request $request, Test $test): Response
     {
         $this->mobileDetect->setUserAgent($request->headers->get('User-Agent'));

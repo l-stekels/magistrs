@@ -73,9 +73,4 @@ class StartAnswer implements LockableMessageInterface
     {
         $this->hobbies = $hobbies;
     }
-
-    public function addHobby(): void
-    {
-
-    }
 }

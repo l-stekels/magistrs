@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Trait\Timestamped;
+use App\Enum\Education;
 use App\Enum\Emotion;
 use App\Enum\Gender;
 use App\Enum\Hobby;
@@ -49,6 +50,9 @@ class Answer
 
     #[ORM\Column(type: 'json', enumType: Hobby::class, options: ['default' => '[]'])]
     private array $hobbies = [];
+
+    #[ORM\Column(nullable: true, enumType: Education::class)]
+    private Education $education;
 
     public function __construct(
         #[ORM\Id]
@@ -176,5 +180,15 @@ class Answer
     public function setHobbies(array $hobbies): void
     {
         $this->hobbies = $hobbies;
+    }
+
+    public function getEducation(): Education
+    {
+        return $this->education;
+    }
+
+    public function setEducation(Education $education): void
+    {
+        $this->education = $education;
     }
 }
