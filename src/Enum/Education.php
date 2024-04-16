@@ -9,5 +9,4 @@ enum Education: string
     case PAMATA = 'pamata izglītība';
     case VIDEJA = 'vidējā izglītība';
     case AUGSTAKA = 'augstākā izglītība';
-    case PROFESIONALA = 'vidējā profesionālā izglītība';
 }
