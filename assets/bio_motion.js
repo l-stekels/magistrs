@@ -43,6 +43,7 @@ const startEmotion = (step) => {
     number += step;
     number = Number(number.toFixed(2));
     bmWalker.happiness = number;
+    console.log(number)
     if (number >= 6 || number <= -6) {
       clearInterval(changeInterval);
     }
@@ -79,6 +80,8 @@ const happyButton = document.getElementById('happy-button');
 const guessedInput = document.getElementById('guessed-emotion');
 
 const buttonClickHandler = (e) => {
+  bmWalker.setSpeed(0);
+  const elapsedTime = Date.now() - time;
   switch (e.target.id) {
     case 'sad-button':
       guessedInput.value = 'sad';
@@ -90,8 +93,6 @@ const buttonClickHandler = (e) => {
       guessedInput.value = '';
       break;
   }
-  bmWalker.setSpeed(0);
-  const elapsedTime = Date.now() - time;
   const thresholdInput = document.getElementById('threshold-input');
   thresholdInput.value = elapsedTime;
   const debugTimeContainer = document.getElementById('debug-time');
@@ -101,19 +102,3 @@ const buttonClickHandler = (e) => {
 }
 sadButton.addEventListener('click', buttonClickHandler);
 happyButton.addEventListener('click', buttonClickHandler);
-
-window.addEventListener('keydown', function(event) {
-  if (overlay.style.display !== 'none') {
-    return;
-  }
-  switch (event.key) {
-    case 'ArrowLeft': // Left arrow key
-      buttonClickHandler({target: {id: 'sad-button'}});
-      sadButton.form.submit();
-      break;
-    case 'ArrowRight': // Right arrow key
-      buttonClickHandler({target: {id: 'happy-button'}});
-      happyButton.form.submit();
-      break;
-  }
-});
