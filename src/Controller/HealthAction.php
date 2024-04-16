@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Repository\TestRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Lock\LockFactory;
 use Symfony\Component\Routing\Attribute\Route;
@@ -21,18 +22,17 @@ class HealthAction extends AbstractController
     #[Route('/health', name: 'health')]
     public function __invoke(): Response
     {
-        $status = 'OK';
         $lock = null;
         try {
             $lock = $this->lock->createLock('health');
             $lock->acquire(true);
-            $this->testRepo->getActiveTest();
+            $this->testRepo->getAnyTest();
         } catch (\Throwable) {
-            $status = 'ERROR';
+            return new JsonResponse(['status' => 'ERROR'], Response::HTTP_INTERNAL_SERVER_ERROR);
         } finally {
             $lock?->release();
         }
 
-        return $this->render('health/index.html.twig', compact('status'));
+        return new JsonResponse(['status' => 'OK']);
     }
 }

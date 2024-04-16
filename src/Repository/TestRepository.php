@@ -18,9 +18,9 @@ class TestRepository extends AbstractRepository
         parent::__construct($registry, Test::class);
     }
 
-    public function getActiveTest(): Test
+    public function getAnyTest(): Test
     {
-        $test = $this->findOneBy(['active' => true]);
+        $test = $this->findAll()[0];
         if (null === $test) {
             throw EntityNotFoundException::createForCriteria(Test::class, ['active' => true]);
         }
