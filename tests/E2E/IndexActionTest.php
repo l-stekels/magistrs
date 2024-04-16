@@ -21,17 +21,13 @@ class IndexActionTest extends BaseE2ETestCase
     public function testIndexWithRandomTest(): void
     {
         $test = TestFactory::createOne();
-        $demographicLink = sprintf('/demographic/%s', $test->getId()->toRfc4122());
 
         $this->browser()
             ->visit('/')
             ->assertSuccessful()
             ->assertSeeIn('h1', 'Bioloģiskās kustības emociju atpazīšanas sliekšņa noteikšanas tests')
             ->assertSeeIn('p', 'Sveiki!')
-            ->assertSeeElement("a[href='$demographicLink']")
-            ->clickAndIntercept("a[href='$demographicLink']")
-            ->assertSuccessful()
-            ->assertOn($demographicLink);
+            ->assertNotSeeElement('a[href^="/demographic/"]');
     }
 
     public function testIndexWithSpecificTest(): void
