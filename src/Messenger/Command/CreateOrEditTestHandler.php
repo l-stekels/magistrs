@@ -23,8 +23,8 @@ readonly class CreateOrEditTestHandler
             $test = new Test($command->id);
         }
         $test->setTitle($command->getTitle());
-        $test->setEyeTracking($command->isEyeTracking());
-        $test->setShared($command->isShared());
+        $test->setIsEyeTracking($command->isEyeTracking());
+        $test->setIsShared($command->isShared());
         $this->testRepository->save($test);
     }
 }
