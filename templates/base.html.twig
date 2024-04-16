@@ -23,6 +23,15 @@
             </div>
         {% endfor %}
     {% endfor %}
+    {% if is_granted('ROLE_MANAGER') %}
+        <div class="">
+            {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('manage_tests_index') }}">Testi</a>
+            {% endif %}
+            <a href="{{ path('manage_answers_index') }}">Atbildes</a>
+            <a href="{{ path('app_logout') }}">Izrakstīties</a>
+        </div>
+    {% endif %}
     {% block content %}
     {% endblock %}
 </main>
