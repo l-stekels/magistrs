@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Test;
-use App\Repository\Exception\EntityNotFoundException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -18,14 +17,11 @@ class TestRepository extends AbstractRepository
         parent::__construct($registry, Test::class);
     }
 
-    public function getAnyTest(): Test
+    public function healthTest(): void
     {
-        $test = $this->findAll()[0];
-        if (null === $test) {
-            throw EntityNotFoundException::createForCriteria(Test::class, ['active' => true]);
-        }
-
-        return $test;
+        $conn = $this->getEntityManager()->getConnection();
+        $statement = $conn->prepare('SELECT 1');
+        $statement->executeQuery();
     }
 
     public function findForUser(bool $isAdmin): array

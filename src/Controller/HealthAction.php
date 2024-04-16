@@ -26,7 +26,7 @@ class HealthAction extends AbstractController
         try {
             $lock = $this->lock->createLock('health');
             $lock->acquire(true);
-            $this->testRepo->getAnyTest();
+            $this->testRepo->healthTest();
         } catch (\Throwable) {
             return new JsonResponse(['status' => 'ERROR'], Response::HTTP_INTERNAL_SERVER_ERROR);
         } finally {
