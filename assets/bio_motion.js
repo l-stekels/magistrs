@@ -43,7 +43,6 @@ const startEmotion = (step) => {
     number += step;
     number = Number(number.toFixed(2));
     bmWalker.happiness = number;
-    console.log(number)
     if (number >= 6 || number <= -6) {
       clearInterval(changeInterval);
     }
