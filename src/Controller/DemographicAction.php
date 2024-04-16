@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\Test;
+use App\Entity\Answer;
 use App\Form\AnswerType;
-use App\Messenger\Command\StartAnswer;
-use Detection\Exception\MobileDetectException;
+use App\Messenger\Command\SaveDemographic;
 use Detection\MobileDetect;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,24 +18,18 @@ use Symfony\Component\Uid\Uuid;
 class DemographicAction extends AbstractController
 {
     public function __construct(
-        private readonly MobileDetect $mobileDetect,
         private readonly MessageBusInterface $commandBus,
     ) {
     }
 
     #[Route('/demographic/{id}', name: 'demographic', methods: ['GET', 'POST'])]
-    public function __invoke(Request $request, Test $test): Response
+    public function __invoke(Request $request, Answer $answer): Response
     {
-        $this->mobileDetect->setUserAgent($request->headers->get('User-Agent'));
-        try {
-            $isMobile = $this->mobileDetect->isMobile();
-        } catch (MobileDetectException) {
-            $isMobile = false;
+        if ($answer->getCompletedAt() !== null) {
+            return $this->redirectToRoute('fin', ['id' => $answer->getId()]);
         }
-        $command = new StartAnswer(
-            Uuid::v4(),
-            $isMobile,
-            $test->getId(),
+        $command = new SaveDemographic(
+            $answer->getId(),
         );
         $form = $this->createForm(AnswerType::class, $command);
         $form->handleRequest($request);
@@ -44,7 +37,7 @@ class DemographicAction extends AbstractController
             // TODO: Catch and handle validation exception
             $this->commandBus->dispatch($command);
 
-            return $this->redirectToRoute('emotion_wheel', ['id' => $command->id->toRfc4122()]);
+            return $this->redirectToRoute('fin', ['id' => $answer->getId()]);
         }
 
         return $this->render('test/demographic.html.twig', [

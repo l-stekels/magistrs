@@ -15,8 +15,11 @@ class AnswerEmotion
 
     private array $emotions = [];
 
-    public function __construct(public readonly Uuid $answerId)
-    {
+    public function __construct(
+        public readonly Uuid $testId,
+        public readonly Uuid $answerId,
+        public readonly bool $isMobile,
+    ) {
     }
 
     public function getCustomEmotion(): ?string

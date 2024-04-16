@@ -7,7 +7,7 @@ namespace App\Form;
 use App\Enum\Education;
 use App\Enum\Gender;
 use App\Enum\Hobby;
-use App\Messenger\Command\StartAnswer;
+use App\Messenger\Command\SaveDemographic;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -59,7 +59,7 @@ class AnswerType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => StartAnswer::class,
+            'data_class' => SaveDemographic::class,
         ]);
     }
 }

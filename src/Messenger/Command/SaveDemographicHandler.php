@@ -10,26 +10,23 @@ use App\Repository\TestRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-readonly class StartAnswerHandler
+readonly class SaveDemographicHandler
 {
     public function __construct(
-        private TestRepository $testRepository,
         private AnswerRepository $answerRepository,
     ) {
     }
 
-    public function __invoke(StartAnswer $command): void
+    public function __invoke(SaveDemographic $command): void
     {
-        $test = $this->testRepository->find($command->testId);
-        $answer = new Answer(
-            $command->id,
-            $test,
-            $command->isMobile,
-        );
+        $answer = $this->answerRepository->find($command->answerId);
+        if (!$answer instanceof Answer) {
+            throw new \RuntimeException('Answer not found');
+        }
         $answer->setAge($command->getAge());
         $answer->setGender($command->getGender());
         $answer->setHobbies($command->getHobbies());
         $answer->setEducation($command->getEducation());
-        $this->answerRepository->save($answer);
+        $this->answerRepository->flush();
     }
 }

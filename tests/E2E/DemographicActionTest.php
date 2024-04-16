@@ -8,20 +8,19 @@ use App\Enum\Education;
 use App\Enum\Gender;
 use App\Enum\Hobby;
 use App\Tests\Fixture\Factory\AnswerFactory;
-use Fixture\Factory\TestFactory;
 
 class DemographicActionTest extends BaseE2ETestCase
 {
     public function testFormSubmission(): void
     {
-        $test = TestFactory::createOne();
+        $answer = AnswerFactory::createOne();
         $gender = Gender::cases()[array_rand(Gender::cases())];
         $age = random_int(18, 99);
         $education = Education::cases()[array_rand(Education::cases())];
 
         $browser = $this->browser()
             ->interceptRedirects()
-            ->visit('/demographic/'.$test->getId()->toRfc4122())
+            ->visit('/demographic/'.$answer->getId()->toRfc4122())
             ->assertSuccessful()
             ->fillField('answer[gender]', $gender->value)
             ->fillField('answer[age]', (string)$age)
@@ -31,13 +30,11 @@ class DemographicActionTest extends BaseE2ETestCase
             ->selectField('answer_hobbies_13', Hobby::MEDITACIJA->value)
             ->click('Saglabāt');
 
-        $answer = AnswerFactory::repository()->findOneBy([
-            'test' => $test,
-        ]);
-        $browser->assertRedirectedTo('/gew/'.$answer->getId()->toRfc4122());
-        self::assertSame($answer->getGender(), $gender);
-        self::assertSame($answer->getAge(), $age);
-        self::assertSame($answer->getEducation(), $education);
-        self::assertSame($answer->getHobbies(), [Hobby::GRAMATAS, Hobby::FOTO, Hobby::MEDITACIJA]);
+        $freshAnswer = $answer->refresh();
+        $browser->assertRedirectedTo('/fin/'.$freshAnswer->getId()->toRfc4122());
+        self::assertSame($freshAnswer->getGender(), $gender);
+        self::assertSame($freshAnswer->getAge(), $age);
+        self::assertSame($freshAnswer->getEducation(), $education);
+        self::assertSame($freshAnswer->getHobbies(), [Hobby::GRAMATAS, Hobby::FOTO, Hobby::MEDITACIJA]);
     }
 }

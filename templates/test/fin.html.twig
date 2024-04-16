@@ -1,19 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block javascripts %}
-    {% block importmap %}
-        {{ importmap(['app', 'fin']) }}
-    {% endblock %}
-    <script>
-        const guesses = {{ stats|json_encode|raw }};
-        const currentGuess = {{ currentGuess|json_encode|raw }};
-    </script>
-{% endblock %}
-
 {% block content %}
-    <canvas id="chart"></canvas>
     <p>
-        Paldies par testa veikšanu!
+        Paldies par veltīto laiku un ieguldījumu pētījumā!
+    </p>
+    <p>
         Jūsu testa bioloģiskās kustības figūras emocija bija "{{ walkerEmotion }}".
         <br>
         Jūs atpazināt, ka figūra attēlo emociju "{{ guessedEmotion }}" {{ score / 1000 }} sekundēs.

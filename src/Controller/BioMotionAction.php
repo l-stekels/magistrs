@@ -37,7 +37,7 @@ class BioMotionAction extends AbstractController
             try {
                 $this->commandBus->dispatch($command);
 
-                return $this->redirectToRoute('fin', ['id' => $answer->getId()]);
+                return $this->redirectToRoute('demographic', ['id' => $answer->getId()]);
             } catch (\Throwable) {
                 $this->addFlash('error', 'Diemžēl neizdevās saglabāt atbildi, lūdzu mēģiniet vēlreiz');
 

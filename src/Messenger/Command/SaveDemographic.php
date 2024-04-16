@@ -10,7 +10,7 @@ use App\Messenger\Middleware\LockableMessageInterface;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class StartAnswer implements LockableMessageInterface
+class SaveDemographic implements LockableMessageInterface
 {
     private Gender $gender;
 
@@ -23,9 +23,7 @@ class StartAnswer implements LockableMessageInterface
     private array $hobbies;
 
     public function __construct(
-        public readonly Uuid $id,
-        public readonly bool $isMobile,
-        public readonly Uuid $testId,
+        public readonly Uuid $answerId,
     ) {
     }
 
@@ -51,7 +49,7 @@ class StartAnswer implements LockableMessageInterface
 
     public function getLockKey(): string
     {
-        return 'start_test_'.$this->id->toRfc4122();
+        return 'save_demographic_'.$this->answerId->toRfc4122();
     }
 
     public function getEducation(): Education

@@ -24,10 +24,6 @@ return [
         'path' => './assets/wheel.js',
         'entrypoint' => true,
     ],
-    'fin' => [
-        'path' => './assets/fin.js',
-        'entrypoint' => true,
-    ],
     'admin' => [
         'path' => './assets/admin.js',
         'entrypoint' => true,

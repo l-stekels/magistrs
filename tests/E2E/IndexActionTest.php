@@ -15,7 +15,7 @@ class IndexActionTest extends BaseE2ETestCase
             ->assertSuccessful()
             ->assertSeeIn('h1', 'Bioloģiskās kustības emociju atpazīšanas sliekšņa noteikšanas tests')
             ->assertSeeIn('p', 'Sveiki!')
-            ->assertNotSeeElement('a[href^="/demographic/"]');
+            ->assertNotSeeElement('a[href^="/gew/"]');
     }
 
     public function testIndexWithRandomTest(): void
@@ -27,22 +27,22 @@ class IndexActionTest extends BaseE2ETestCase
             ->assertSuccessful()
             ->assertSeeIn('h1', 'Bioloģiskās kustības emociju atpazīšanas sliekšņa noteikšanas tests')
             ->assertSeeIn('p', 'Sveiki!')
-            ->assertNotSeeElement('a[href^="/demographic/"]');
+            ->assertNotSeeElement('a[href^="/gew/"]');
     }
 
     public function testIndexWithSpecificTest(): void
     {
         $test = TestFactory::createOne();
-        $demographicLink = sprintf('/demographic/%s', $test->getId()->toRfc4122());
+        $gewLink = sprintf('/gew/%s', $test->getId()->toRfc4122());
 
         $this->browser()
             ->visit(sprintf('/%s', $test->getId()->toRfc4122()))
             ->assertSuccessful()
             ->assertSeeIn('h1', 'Bioloģiskās kustības emociju atpazīšanas sliekšņa noteikšanas tests')
             ->assertSeeIn('p', 'Sveiki!')
-            ->assertSeeElement("a[href='$demographicLink']")
-            ->clickAndIntercept("a[href='$demographicLink']")
+            ->assertSeeElement("a[href='$gewLink']")
+            ->clickAndIntercept("a[href='$gewLink']")
             ->assertSuccessful()
-            ->assertOn($demographicLink);
+            ->assertOn($gewLink);
     }
 }

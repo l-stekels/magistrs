@@ -21,10 +21,10 @@ class Answer
 {
     use Timestamped;
 
-    #[ORM\Column(enumType: Gender::class)]
+    #[ORM\Column(nullable: true, enumType: Gender::class)]
     private ?Gender $gender = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $age = null;
 
     #[Column(nullable: true)]

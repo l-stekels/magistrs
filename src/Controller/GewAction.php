@@ -4,30 +4,39 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\Answer;
+use App\Entity\Test;
 use App\Enum\Emotion;
 use App\Messenger\Command\AnswerEmotion;
+use Detection\Exception\MobileDetectException;
+use Detection\MobileDetect;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Uid\Uuid;
 
 class GewAction extends AbstractController
 {
     public function __construct(
+        private readonly MobileDetect $mobileDetect,
         private readonly MessageBusInterface $commandBus,
     ) {
     }
 
     #[Route('/gew/{id}', name: 'emotion_wheel', methods: ['GET', 'POST'])]
-    public function __invoke(Request $request, Answer $answer): Response
+    public function __invoke(Request $request, Test $test): Response
     {
-        if ($answer->getCompletedAt() !== null) {
-            return $this->redirectToRoute('fin', ['id' => $answer->getId()]);
+        $this->mobileDetect->setUserAgent($request->headers->get('User-Agent'));
+        try {
+            $isMobile = $this->mobileDetect->isMobile();
+        } catch (MobileDetectException) {
+            $isMobile = false;
         }
         $command = new AnswerEmotion(
-            $answer->getId(),
+            $test->getId(),
+            $id = Uuid::v4(),
+            $isMobile,
         );
         if ($request->isMethod('GET')) {
             return $this->render('test/gew.html.twig', [
@@ -57,9 +66,9 @@ class GewAction extends AbstractController
         } catch (\Throwable) {
             $this->addFlash('error', 'Diemžēl neizdevās saglabāt atbildi, lūdzu mēģiniet vēlreiz');
 
-            return $this->redirectToRoute('emotion_wheel', ['id' => $answer->getId()]);
+            return $this->redirectToRoute('emotion_wheel', ['id' => $test->getId()]);
         }
 
-        return $this->redirectToRoute('bio_motion_start', ['id' => $answer->getId()]);
+        return $this->redirectToRoute('bio_motion_start', ['id' => $id]);
     }
 }
