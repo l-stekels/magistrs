@@ -30,20 +30,28 @@ class GewAction extends AbstractController
             $answer->getId(),
         );
         if ($request->isMethod('GET')) {
-            return $this->render('test/gew.html.twig');
+            return $this->render('test/gew.html.twig', [
+                'wheelEmotions' => Emotion::cases(),
+            ]);
         }
         $csrfToken = $request->getPayload()->get('token');
         if (!$this->isCsrfTokenValid('save-emotion', $csrfToken)) {
             return new Response(':(');
         }
-        // Map values to null
-        $values = array_map(static fn (string $value) => "" === $value ? null : $value, $request->request->all());
-        // Map number of emotion to the correct enum value
-        $emotion = Emotion::pick($values['emotion']);
-        $intensity = null !== $values['intensity'] ? (int)$values['intensity'] : null;
-        $command->setCustomEmotion($values['custom-emotion']);
-        $command->setIntensity($intensity);
-        $command->setEmotion($emotion);
+
+        $rawEmotions = json_decode($request->request->get('emotion', '[]'), true, flags: JSON_THROW_ON_ERROR);
+        $emotionsMapped = [] !== $rawEmotions ? array_combine(
+            Emotion::values(),
+            $rawEmotions,
+        ) : [];
+        foreach ($emotionsMapped as $emotion => $intensity) {
+            if ($intensity === null) {
+                continue;
+            }
+            $command->addEmotion($emotion, $intensity);
+        }
+        $customEmotion = $request->request->get('custom_emotion') !== '' ? $request->request->get('custom_emotion') : null;
+        $command->setCustomEmotion($customEmotion);
         try {
             $this->commandBus->dispatch($command);
         } catch (\Throwable) {
@@ -52,6 +60,6 @@ class GewAction extends AbstractController
             return $this->redirectToRoute('emotion_wheel', ['id' => $answer->getId()]);
         }
 
-        return $this->redirectToRoute('fin', ['id' => $answer->getId()]);
+        return $this->redirectToRoute('bio_motion_start', ['id' => $answer->getId()]);
     }
 }

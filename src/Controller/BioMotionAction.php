@@ -51,6 +51,6 @@ class BioMotionAction extends AbstractController
             return $this->redirectToRoute('bio_motion_start', ['id' => $answer->getId()]);
         }
 
-        return $this->redirectToRoute('emotion_wheel', ['id' => $answer->getId()]);
+        return $this->redirectToRoute('fin', ['id' => $answer->getId()]);
     }
 }

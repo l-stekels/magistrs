@@ -53,3 +53,12 @@
 .guide p {
     margin: 0;
 }
+
+.gew-instance svg .line > a > circle {
+    fill: rgba(177,178,178,0);
+    stroke: rgb(0,0,0);
+}
+.gew-instance svg .line > a.active > circle {
+    fill: rgb(0, 0, 0);
+    stroke: rgb(0,0,0);
+}

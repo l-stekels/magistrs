@@ -6,6 +6,9 @@ namespace App\Tests\Fixture\Factory;
 
 use App\Entity\Answer;
 use App\Entity\Test;
+use App\Enum\Education;
+use App\Enum\Gender;
+use App\Enum\Hobby;
 use App\Repository\AnswerRepository;
 use Fixture\Factory\TestFactory;
 use Symfony\Component\Uid\Uuid;
@@ -28,6 +31,10 @@ class AnswerFactory extends ModelFactory
             'id' => Uuid::v4(),
             'test' => TestFactory::createOne(),
             'isMobile' => self::faker()->boolean(),
+            'gender' => self::faker()->randomElement(Gender::cases()),
+            'age' => self::faker()->numberBetween(18, 99),
+            'education' => self::faker()->randomElement(Education::cases()),
+            'hobbies' => self::faker()->randomElements(Hobby::cases(), self::faker()->numberBetween(1, 8)),
         ];
     }
 

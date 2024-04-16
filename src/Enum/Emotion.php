@@ -31,4 +31,9 @@ enum Emotion: string
     {
         return self::cases()[$value] ?? null;
     }
+
+    public static function values(): array
+    {
+        return array_map(static fn (Emotion $emotion) => $emotion->value, self::cases());
+    }
 }
