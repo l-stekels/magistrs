@@ -6,8 +6,8 @@ namespace App\Enum;
 
 enum Education: string
 {
-    case PAMATSKOLA = 'pamata izglītība';
-    case VIDUSSKOLA = 'vidējā izglītība';
+    case PAMATA = 'pamata izglītība';
+    case VIDEJA = 'vidējā izglītība';
     case AUGSTAKA = 'augstākā izglītība';
     case PROFESIONALA = 'vidējā profesionālā izglītība';
 }

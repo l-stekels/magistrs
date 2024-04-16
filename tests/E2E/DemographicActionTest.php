@@ -4,7 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests\E2E;
 
+use App\Enum\Education;
+use App\Enum\Gender;
+use App\Enum\Hobby;
+use App\Tests\Fixture\Factory\AnswerFactory;
 use Fixture\Factory\TestFactory;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Panther\PantherTestCase;
 use Zenstruck\Browser\Test\HasBrowser;
 use Zenstruck\Foundry\Test\Factories;
@@ -16,29 +21,30 @@ class DemographicActionTest extends PantherTestCase
     use ResetDatabase;
     use Factories;
 
-
     public function testFormSubmission(): void
     {
-        TestFactory::createOne();
+        $test = TestFactory::createOne();
+        $gender = Gender::cases()[array_rand(Gender::cases())];
+        $age = random_int(18, 99);
+        $education = Education::cases()[array_rand(Education::cases())];
 
         $this->browser()
-            ->visit('/demographic')
+            ->visit('/demographic/'.$test->getId()->toRfc4122())
             ->assertSuccessful()
-            ->assertSee('Demogrāfiskie dati');
-//        $client = static::createPantherClient();
-//        $crawler = $client->request('GET', '/demographic');
-//
-//        // Find the form and submit it
-//        $form = $crawler->selectButton('Saglabāt')->form();
-//        $form['answer[age]'] = 20;
-//        $form['answer[gender]'] = 'female';
-//        $form['answer[education]'] = 'Fotogrāfēšana';
-////        $form['answer[hobby]'] = 'Fotogrāfēšana';
-//        $client->submit($form);
-//        // Parse the URL and get the path
-//
-//        $path = parse_url($client->getCurrentURL(), PHP_URL_PATH);
-//        // Assert that the path starts with '/bio-motion/'
-//        $this->assertStringStartsWith('/bio-motion/', $path);
+            ->fillField('answer[gender]', $gender->value)
+            ->fillField('answer[age]', (string)$age)
+            ->selectField('answer[education]', $education->value)
+            ->selectField('answer_hobbies_0', Hobby::GRAMATAS->value)
+            ->selectField('answer_hobbies_1', Hobby::FOTO->value)
+            ->selectField('answer_hobbies_13', Hobby::MEDITACIJA->value)
+            ->click('Saglabāt');
+
+        $answer = AnswerFactory::repository()->findOneBy([
+            'test' => $test,
+        ]);
+        self::assertSame($answer->getGender(), $gender);
+        self::assertSame($answer->getAge(), $age);
+        self::assertSame($answer->getEducation(), $education);
+        self::assertSame($answer->getHobbies(), [Hobby::GRAMATAS, Hobby::FOTO, Hobby::MEDITACIJA]);
     }
 }

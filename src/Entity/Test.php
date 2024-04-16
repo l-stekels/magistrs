@@ -77,7 +77,7 @@ class Test
         return $this->isEyeTracking;
     }
 
-    public function setEyeTracking(bool $eyeTracking): void
+    public function setIsEyeTracking(bool $eyeTracking): void
     {
         $this->isEyeTracking = $eyeTracking;
     }
@@ -87,7 +87,7 @@ class Test
         return $this->isShared;
     }
 
-    public function setShared(bool $shared): void
+    public function setIsShared(bool $shared): void
     {
         $this->isShared = $shared;
     }

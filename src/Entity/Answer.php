@@ -57,7 +57,7 @@ class Answer
     public function __construct(
         #[ORM\Id]
         #[ORM\Column(type: 'uuid', nullable: false)]
-        private readonly Uuid $id,
+        private Uuid $id,
         #[ORM\ManyToOne(targetEntity: Test::class, inversedBy: 'answers')]
         #[ORM\JoinColumn(nullable: false)]
         private readonly Test $test,
