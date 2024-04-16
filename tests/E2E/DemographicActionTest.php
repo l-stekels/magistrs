@@ -10,7 +10,7 @@ use App\Enum\Hobby;
 use App\Tests\Fixture\Factory\AnswerFactory;
 use Fixture\Factory\TestFactory;
 
-class DemographicActionTest extends BaseE2ETestCaseTest
+class DemographicActionTest extends BaseE2ETestCase
 {
     public function testFormSubmission(): void
     {

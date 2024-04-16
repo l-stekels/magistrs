@@ -9,7 +9,7 @@ use Zenstruck\Browser\Test\HasBrowser;
 use Zenstruck\Foundry\Test\Factories;
 use Zenstruck\Foundry\Test\ResetDatabase;
 
-abstract class BaseE2ETestCaseTest extends PantherTestCase
+abstract class BaseE2ETestCase extends PantherTestCase
 {
     use HasBrowser;
     use ResetDatabase;

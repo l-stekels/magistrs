@@ -6,7 +6,7 @@ namespace App\Tests\E2E;
 
 use Fixture\Factory\TestFactory;
 
-class IndexActionTest extends BaseE2ETestCaseTest
+class IndexActionTest extends BaseE2ETestCase
 {
     public function testIndexWithNoTests(): void
     {

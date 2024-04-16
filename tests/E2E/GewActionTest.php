@@ -8,7 +8,7 @@ use App\Entity\Answer;
 use App\Tests\Fixture\Factory\AnswerFactory;
 use Zenstruck\Foundry\Proxy;
 
-class GewActionTest extends BaseE2ETestCaseTest
+class GewActionTest extends BaseE2ETestCase
 {
     public function testWheelSubmissionEmptyWheelSubmitted(): void
     {
