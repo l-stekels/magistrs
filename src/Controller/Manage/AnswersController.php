@@ -20,9 +20,9 @@ class AnswersController extends AbstractController
     public function index(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_MANAGER');
-        dd($this->testRepo->findForUser($this->isGranted('ROLE_ADMIN')));
+
         return $this->render('manage/manager/index.html.twig', [
-            'answers' => $this->answerRepo->findForUser($this->isGranted('ROLE_ADMIN')),
+            'tests' => $this->testRepo->findForUser($this->isGranted('ROLE_ADMIN')),
         ]);
     }
 }

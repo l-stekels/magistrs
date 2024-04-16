@@ -22,4 +22,12 @@ enum WalkerEmotion: string
     {
         return array_map(static fn (self $value) => $value->value, self::cases());
     }
+
+    public function translated(): string
+    {
+        return match ($this) {
+            self::SAD => 'bēdīgs',
+            self::HAPPY => 'priecīgs',
+        };
+    }
 }

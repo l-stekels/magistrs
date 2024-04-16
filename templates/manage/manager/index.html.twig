@@ -1,5 +1,51 @@
 {% extends 'base.html.twig' %}
 
-{% block content %}
+{% block importmap %}{{ importmap(['app', 'admin']) }}{% endblock %}
 
+{% block content %}
+    <div class="container">
+        {% for test in tests %}
+            <h2>Test ID: {{ test.id }}</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Dzimums</th>
+                    <th>Vecums</th>
+                    <th>Minējuma laiks (ms)</th>
+                    <th>Izmantots viedtālrunis</th>
+                    <th>Stimulā attelotā emocija</th>
+                    <th>Uzminētā emocija</th>
+                    <th>Atzīmētās brīva laika nodarbošanās</th>
+                    <th>Izglītība</th>
+                    <th>Atzīmētās Ženēvas Emociju apļa emocijas (emocija[intensitāte])</th>
+                    <th>Norādīta cita emocija</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for answer in test.answers %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ answer.gender.value }}</td>
+                        <td>{{ answer.age }}</td>
+                        <td>{{ answer.threshold }}</td>
+                        <td>{{ answer.isMobile ? 'Jā' : 'Nē' }}</td>
+                        <td>{{ answer.walkerEmotion.translated }}</td>
+                        <td>{{ answer.guessedEmotion.translated }}</td>
+                        <td>{{ answer.stringHobbies }}</td>
+                        <td>{{ answer.education.value }}</td>
+                        <td>
+                            <ul>
+                                {% for emotion in answer.gewEmotions %}
+                                    <li>{{ emotion.emotion }} [{{ emotion.intensity }}]</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                        <td>{{ answer.customEmotion }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endfor %}
+    </div>
 {% endblock %}

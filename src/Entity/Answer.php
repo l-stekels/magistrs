@@ -151,6 +151,14 @@ class Answer
         return $this->hobbies;
     }
 
+    public function getStringHobbies(): string
+    {
+        return implode(
+            ', ',
+            array_map(static fn(Hobby $hobby) => $hobby->value, $this->hobbies)
+        );
+    }
+
     /**
      * @param Hobby[] $hobbies
      */
