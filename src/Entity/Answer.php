@@ -46,7 +46,7 @@ class Answer
     private array $hobbies = [];
 
     #[ORM\Column(nullable: true, enumType: Education::class)]
-    private Education $education;
+    private ?Education $education = null;
 
     #[ORM\Column(type: 'json', options: ['default' => '[]'])]
     private array $gewEmotions = [];
@@ -68,7 +68,7 @@ class Answer
         return $this->id;
     }
 
-    public function getGender(): Gender
+    public function getGender(): ?Gender
     {
         return $this->gender;
     }
@@ -78,7 +78,7 @@ class Answer
         $this->gender = $gender;
     }
 
-    public function getAge(): int
+    public function getAge(): ?int
     {
         return $this->age;
     }
@@ -167,7 +167,7 @@ class Answer
         $this->hobbies = $hobbies;
     }
 
-    public function getEducation(): Education
+    public function getEducation(): ?Education
     {
         return $this->education;
     }
