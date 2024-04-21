@@ -4,20 +4,24 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(33, 33, 33, 0.82);;
-}
-
-.overlay-container {
-    position: absolute;
-    top: 20rem;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    background-color: rgba(33, 33, 33, 0.82);
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
+    overflow: auto;
+}
+
+.overlay-container {
+    max-width: 90%; /* Limit the width */
+    max-height: 90%; /* Limit the height */
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
     color: var(--white);
-    width: 70%;
+    overflow: auto; /* Add scroll if content overflows */
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding-bottom: 2rem;
+    padding-top: 2rem;
 }
 
 .overlay-container > p {
