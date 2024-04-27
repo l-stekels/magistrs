@@ -7,6 +7,9 @@
         {% for test in tests %}
             <h2>Test ID: {{ test.id }}</h2>
             <a href="{{ path('home', {id: test.id}) }}">Saite uz testu</a>
+            <form action="{{ path('app_export', {id: test.id}) }}">
+                <button type="submit">Eksportēt uz Excel</button>
+            </form>
             <table>
                 <thead>
                 <tr>
@@ -27,14 +30,14 @@
                 {% for answer in test.answers %}
                     <tr>
                         <td>{{ loop.index }}</td>
-                        <td>{{ answer.gender.value }}</td>
+                        <td>{{ answer.gender.value|default }}</td>
                         <td>{{ answer.age }}</td>
                         <td>{{ answer.threshold }}</td>
                         <td>{{ answer.isMobile ? 'Jā' : 'Nē' }}</td>
                         <td>{{ answer.walkerEmotion.translated }}</td>
-                        <td>{{ answer.guessedEmotion.translated }}</td>
+                        <td>{{ answer.guessedEmotion.translated|default }}</td>
                         <td>{{ answer.stringHobbies }}</td>
-                        <td>{{ answer.education.value }}</td>
+                        <td>{{ answer.education.value|default }}</td>
                         <td>
                             <ul>
                                 {% for emotion in answer.gewEmotions %}
