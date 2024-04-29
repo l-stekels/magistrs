@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class ExportAction extends AbstractController
 {
-    #[Route('/export/{id}', name: 'app_export', methods: 'GET')]
+    #[Route('/manage/export/{id}', name: 'app_export', methods: 'GET')]
     public function index(Test $test): Response
     {
         $spreadsheet = new Spreadsheet();
