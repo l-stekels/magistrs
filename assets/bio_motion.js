@@ -11,6 +11,7 @@ import P5 from 'p5';
 const bmWalker = new BMWalker();
 
 bmWalker.setSpeed(0);
+let walkerStarted = false;
 new P5((p) => {
   const width = () => p.windowWidth / 2;
   const height = () => p.windowHeight / 2;
@@ -23,6 +24,16 @@ new P5((p) => {
     p.resizeCanvas(width(), height());
   };
   p.draw = () => {
+    if (!walkerStarted && isEyeTracking) {
+      // Zīmē krustu
+      p.stroke(255);
+      p.strokeWeight(5);
+      // Vertikālā krustā līnija
+      p.line(width() / 2, height() / 2 - 50, width() / 2, height() / 2 + 50);
+      // Horizontālā krusta līnija
+      p.line(width() / 2 - 50, height() / 2, width() / 2 + 50, height() / 2);
+      return;
+    }
     const markers = bmWalker.getMarkers(height());
     // Novieto centrā
     p.translate(width() / 2, height() / 2);
@@ -56,22 +67,27 @@ startMotionButton.addEventListener('click', (e) => {
   e.preventDefault();
   // Novāc overlay
   overlay.style.display = 'none';
-  // Figūra sāk soļot
-  bmWalker.setSpeed(1);
-  // Figūras emocijas mainās
-  switch (emotion) {
-    case 'happy':
-      startEmotion(0.1);
-      break;
-    case 'sad':
-      startEmotion(-0.1);
-      break;
-    default:
-      startEmotion(0);
-      break;
-  }
-  // Sākam laika atskaiti
-  time = Date.now();
+
+  const timeout = isEyeTracking ? 3000 : 0;
+  setTimeout(() => {
+    walkerStarted = true;
+    // Figūra sāk soļot
+    bmWalker.setSpeed(1);
+    // Figūras emocijas mainās
+    switch (emotion) {
+      case 'happy':
+        startEmotion(0.1);
+        break;
+      case 'sad':
+        startEmotion(-0.1);
+        break;
+      default:
+        startEmotion(0);
+        break;
+    }
+    // Sākam laika atskaiti
+    time = Date.now();
+  }, timeout);
 });
 
 const sadButton = document.getElementById('bio_motion_bedigs');

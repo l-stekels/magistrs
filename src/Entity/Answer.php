@@ -194,4 +194,9 @@ class Answer
             'intensity' => $intensity,
         ];
     }
+
+    public function getTest(): Test
+    {
+        return $this->test;
+    }
 }

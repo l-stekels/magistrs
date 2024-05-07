@@ -48,6 +48,7 @@ class BioMotionAction extends AbstractController
         return $this->render('test/bio_motion.html.twig', [
             'emotion' => $answer->getWalkerEmotion(),
             'form' => $form->createView(),
+            'is_eye_tracking' => $answer->getTest()->isEyeTracking(),
         ]);
     }
 }

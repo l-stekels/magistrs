@@ -6,6 +6,7 @@
     {% endblock %}
     <script>
         const emotion = {{ emotion.value|json_encode|raw }};
+        const isEyeTracking = {{ is_eye_tracking|json_encode|raw }};
     </script>
 {% endblock %}
 
@@ -23,6 +24,11 @@
             <p>
                 Tests sāksies pēc tam, kad nospiedīsiet pogu "Sākt".
             </p>
+            {% if is_eye_tracking %}
+                <p>
+                    No sākuma uz melnā laukuma būs redzams krusts skatities uz to, pēc tam parādīsies figūra.
+                </p>
+            {% endif %}
             <p>
                 Tad figūra melnajā laukumā uzsāks kustību. Sākotnēji kustība būs neitrāla, bet pēc pāris sekundēm tā
                 mainīsies.
